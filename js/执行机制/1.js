@@ -6,10 +6,10 @@ function showName() {
 }
 
 //==========编译
-// var myname
-// function showName() {
-//     console.log('函数showName执行了');
-// }
-// showName()
-// console.log(myname);
-// myname = '小明'
+var myname
+function showName() {
+    console.log('函数showName执行了');
+}
+showName()
+console.log(myname);
+myname = '小明'

@@ -18,6 +18,7 @@ function add() {
 }
 add()
 
+
 //--------------------------------
 //js引擎读取到代码，创建一个调用栈
 // 全局和函数体被v8编译的时候会形成一个全局执行上下文
@@ -32,3 +33,14 @@ add()
 //b = underfined
 
 //------------------------------------
+
+var a = 2
+function add(b, c) {
+    return b + c
+}
+function addAll(b, c) {
+    var d = 10
+    var result = add(b, c)
+    return a + result + d
+}
+addAll(3, 6)
