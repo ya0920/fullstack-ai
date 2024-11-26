@@ -1,9 +1,9 @@
-//有没有一个方法，既能判断原始类型又能判断引用类型
-let a = 1   //new Number(1)
-//a.toString() = function(){}
-let b = {} 
-console.log(Object.prototype.toString.call(a));
-//把 obj 原型上的 toString 的方法指到 a 身上来
+// //有没有一个方法，既能判断原始类型又能判断引用类型
+// let a = 1   //new Number(1)
+// //a.toString() = function(){}
+// let b = {} 
+// console.log(Object.prototype.toString.call(a));
+// //把 obj 原型上的 toString 的方法指到 a 身上来
 
 
 //回顾一下call

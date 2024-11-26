@@ -6,7 +6,7 @@ function add(x, y) {
     return x + y;
 }
 
-console.log(add('2', 3));      // 23
+//console.log(add('2', 3));      // 23
 
 //如果用户传进来的是字符串，进行字符串拼接
 //所以要进行判断
