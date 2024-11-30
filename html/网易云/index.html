@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <audio id="j-bgm" src="./assets/bgm.mp3"></audio>
+  <div class="music-btn off"></div>
+
+  <!-- 动画 -->
+  <div class="view">
+    <!-- 太阳 -->
+    <div class="sun"></div>
+
+    <!-- 秋千 -->
+    <div class="art">
+      <div class="swing">
+
+        <div class="leg1">
+          <div class="jiojio"></div>
+        </div>
+
+        <div class="leg2">
+          <div class="jiojio"></div>
+        </div>
+
+        <!-- 脖子 -->
+        <div class="neck"></div>
+        <!-- 头 -->
+        <div class="head">
+          <div class="part"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 文字 -->
+    <div class="text"></div>
+  </div>
+
+
+
+  
+  <script>
+    const musicBtn = document.querySelector('.music-btn')
+    const bgMusic = document.getElementById('j-bgm')
+    let isPlay = false
+
+    musicBtn.addEventListener('click', function() {
+      musicBtn.classList.toggle('off')
+      isPlay = !isPlay
+      if (isPlay) {
+        bgMusic.play()
+      } else {
+        bgMusic.pause()
+      }
+    })
+  </script>
+</body>
+</html>

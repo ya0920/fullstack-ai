@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="login">
+
+    <div class="username">
+      账号：<input id="username" type="text">
+    </div>
+
+    <div class="password">
+      密码：<input id="password" type="text">
+    </div> 
+
+    <button id="login"> 登录</button>
+
+  </div>
+
+  <script>
+    let login = document.getElementById('login');
+    let username = document.getElementById('username');
+    let password = document.getElementById('password');
+
+
+    login.addEventListener('click', function() {
+      // console.log(username.value, password.value);
+      // 发接口请求
+      let xhr = new XMLHttpRequest();
+      xhr.open('get', `http://localhost:3000/login?username=${username.value}&psd=${password.value}`, true)
+      xhr.send();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+          alert(xhr.responseText);
+        }
+      }
+    })
+  </script>
+</body>
+</html>
