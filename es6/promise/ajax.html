@@ -43,3 +43,70 @@
     </script>
 </body>
 </html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <ul id="ul"></ul>
+    <!-- 这里定义了一个空的无序列表，用于后续展示获取到的电影列表数据 -->
+    <script>
+        // 定义函数getData，用于发送接口请求并获取数据
+        function getData() {
+            // 发接口请求
+            return new Promise((resolve, reject) => {
+                // 创建一个XMLHttpRequest对象，用于发送HTTP请求
+                let xhr = new XMLHttpRequest();
+                // 配置请求，设置请求方法为GET，指定请求的URL，true表示异步请求
+                xhr.open('GET', 'https://mock.mengxuegu.com/mock/65a91543c4cd67421b34c898/movie/movieList', true);
+                // 发送请求
+                xhr.send();
+
+                // 监听XMLHttpRequest对象的状态变化
+                xhr.onreadystatechange = function () {
+                    // 当请求状态为4（表示请求已完成）且状态码为200（表示请求成功）时
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // 将响应文本解析为JSON格式，并在控制台打印出来
+                        console.log(JSON.parse(xhr.responseText));
+                        // 从解析后的JSON数据中提取电影列表数据（假设接口返回的数据结构中有movieList字段包含电影列表信息）
+                        // 并通过resolve将电影列表数据传递出去，使Promise状态变为fulfilled，以便后续处理
+                        resolve(JSON.parse(xhr.responseText).movieList)
+                    }
+                }
+            });
+        }
+
+        // 定义函数showList，用于展示获取到的电影列表数据
+        function showList(data) {
+            // 遍历传入的电影列表数据数组
+            data.forEach(item => {
+                // 为每个电影数据项创建一个新的<li>元素
+                let li = document.createElement('li');
+                // 将电影名称（假设每个电影数据项有nm字段表示电影名称）设置为<li>元素的文本内容
+                li.innerText = item.nm;
+                // 将创建好的<li>元素添加到页面上id为"ul"的无序列表中
+                document.getElementById('ul').appendChild(li);
+            });
+            // console.log(`拿到了数据${data}`);
+        }
+
+        // 调用getData函数发起接口请求，返回一个Promise对象
+        getData()
+            // 当Promise状态变为fulfilled（即接口请求成功并获取到数据）时，执行这个回调函数
+           .then(res => {
+                // 将获取到的电影列表数据传递给showList函数进行展示
+                showList(res)
+            });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function getData(url) {
+      return new Promise((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.send();
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            // console.log(xhr.responseText);
+            resolve(xhr.responseText)
+          }
+        }
+      })
+    }
+   
+    async function foo() {
+      let data = await getData('https://mock.mengxuegu.com/mock/66585c4db462b81cb3916d3e/songer/songer#!method=get')
+      console.log(data);
+    }
+    foo()
+  </script>
+</body>
+</html>
