@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #model {
+            width: 200px;
+            height: 200px;
+            line-height: 200px;
+            text-align: center; 
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <button id="open">打开弹窗</button>
+    <button id="close">关闭弹窗</button>
+
+    <script>
+        // const model = function (flag) {
+        //     let div = document.createElement('div')
+        //     div.innerHTML = '我是一个全局弹框'
+        //     div.id = 'model'
+        //     div.style.position = flag
+        //     document.body.appendChild(div)
+        // }
+
+        const Model = (function() {
+            let model = null;
+            return function(flag) {
+                if (!model) {
+                    model = document.createElement('div')
+                    model.innerHTML = '我是一个全局弹框'
+                    model.id ='model'
+                    document.body.appendChild(model)
+                }
+                model.style.display = flag
+                return model
+            }
+        })()
+
+        document.getElementById('open').addEventListener('click', () => {
+            Model('block')
+        })
+
+        
+        document.getElementById('close').addEventListener('click', () => {
+            Model('none')
+        })
+    </script>
+</body>
+</html>
