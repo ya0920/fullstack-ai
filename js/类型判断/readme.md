@@ -25,10 +25,12 @@ Data
 
 # Object.prototype.toString()
 
-1. 设 O 为调用 ToObject 的结果，将 this 值作为参数传递。
-2. 设 toString 是调用 [[Get]] 内部 O 方法将 “toString” 作为论点。
-3. 如果 IsCallable（toString） 为 false，则引发 TypeError 异常。
-4. 返回 调用 toString 的 [[Call]] 内部方法的结果，将 O 作为 this 值传递，并且没有参数。
+1. 如果 this 值为 undefined，返回 "[object Undefined]"。
+2. 如果 this 值为 null，返回 "[object Null]"。
+3. 设 O 为调用 ToObject 的结果，将 this 值作为参数传递 ToObject(this)，
+4. 设 class 为 O 的 [[Class]] 内部属性的值。 // 得到了 O 的类型，
+5. 返回由 “[object ”、 class 和 “]”  三块拼接的结果。
+
 
 # 包装类
 1. 原始类型不能拥有属性和方法，属性和方法只能是引用类型的

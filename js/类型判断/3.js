@@ -4,7 +4,7 @@
 // console.log(function() {} instanceof Function);
 
 
- console.log([] instanceof Object);//ture
+ //console.log([] instanceof Object);//ture
 
 
 // console.log('hello' instanceof String); //False

@@ -1,0 +1,5 @@
+setImmediate(() => {
+  // xxxxxx
+})
+
+// xxx
