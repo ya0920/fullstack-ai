@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, 1initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list{
+            width: 300px;
+            min-height: 300px;
+            border: 10px solid;
+        }
+    </style>
+</head>
+<body>
+    <ul class="list"></ul>
+
+    <script>
+        const ul = document.querySelector('.list');
+        const items = ['apple', 'banana', 'cherry', 'citrus']
+
+        //1 
+        ul.style.display = 'none';
+        for(let i = 0; i < items.length; i++) {
+            const li = document.createElement('li');
+            li.textContent = items[i];
+            ul.appendChild(li); //将元素添加到ul中
+        }
+        ul.style.display = 'block';
+        
+
+
+        //文档碎片
+        let frg = document.createElement() //虚拟的文档片段
+        for(let i = 0; i < items.length; i++) {
+            const li = document.createElement('li');
+            li.appendChild(item[i]); //将元素添加
+            frg.appendChild(li)
+        }
+        
+        //克隆
+        const cloneUl = ul.cloneNode(true); //深度克隆
+        for(let i = 0; i < items.length; i++) {
+            const li = document.createElement('li');
+            li.appendChild(item[i]); //将元素添加
+            cloneUl.appendChild(li)
+        }
+        
+        ul.parentNode.replaceChild(cloneUl, ul); //将克隆的ul替换真实的ul
+        
+    </script>
+</body>
+</html>
