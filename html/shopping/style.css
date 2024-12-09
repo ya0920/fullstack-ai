@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.y-cennter{
+    display: flex;
+    align-items: center;
+}
+ul{
+    list-style: none;
+}
+.head{
+    height: 64px;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.1);
+    padding: 0 96px;
+    justify-content: space-between;
+}
+.nav{
+    height: 100%;
+}
+.logo{
+    width: 32px;
+}
+.logo img{
+    width: 100%;
+}
+.nav ul{
+    display: flex;
+}
+.nav ul li{
+    margin-left: 32px;
+    color: #4b5563;
+    font-size: 16px;
+}
+.login-register{
+    font-size: 0;
+}
+.login-register button{
+    border: none;
+    padding: 8px 16px;
+}
