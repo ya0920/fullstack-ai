@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <template id="demo">
+        <div>
+            <h2>{{state.title}}</h2>
+            <h3>{{state.count}}</h3>
+            <button @click="decrement">-1</button>
+            <button @click="add">+1</button>
+        </div>
+    </template>
+
+    <templata id="bot">
+        <div>Bot Page</div>
+    </templata>
+
+    <script>
+        const { createApp, reactive } = Vue
+        const app = createApp({  
+            template: '#demo',
+            setup() {
+                let state = reactive({   //响应式
+                    title: 'hello world',
+                    count: 0,
+                })
+                const decrement = () => {
+                    state.count--
+                }
+
+                const add = () => {
+                    state.count++
+                }
+
+                return {
+                    state,
+                    decrement,
+                    add
+                }
+            }
+        })
+        app.mount('#app')
+        /*不能取重复的id*/
+    </script>
+</body>
+
+</html>

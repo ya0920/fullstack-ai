@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="ul"></ul>
+    <button id="button">确认</button>
+    <script>
+        let arr = [1, 2, 3, 4, 5];
+
+        arr.forEach(item => {
+            let li = document.createElement('li');
+            li.textContent = item;
+            document.getElementById('ul').appendChild(li);
+        });
+    </script>
+    <script>
+        document.getElementById('button').addEventListener('click', function() {
+            this.innerText = '提交';
+        });
+    </script>
+</body>
+</html>
