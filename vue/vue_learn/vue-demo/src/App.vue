@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ state.title }}</h2>
-    <h3 v-bind:class="{'red': state.isActive}">{{ state.count }}</h3>
+    <h3 v-bind:class="{ 'red': state.isActive }">{{ state.count }}</h3>
     <!-- :class -->
     <button v-on:click="decrement">-1</button>
     <!-- 绑定事件 -->
@@ -20,14 +20,14 @@ let state = reactive({
   title: 'Hello Vue 3',
   count: 0,
   isActive: false,
-  arr:['html', 'css', 'js', 'vue']
+  arr: ['html', 'css', 'js', 'vue']
 })
 
 const increment = () => {
   state.count++
   if (state.count < -5) {
     state.isActive = true
-  }else{
+  } else {
     state.isActive = false
   }
 }
@@ -36,14 +36,14 @@ const decrement = () => {
   state.count--
   if (state.count < -5) {
     state.isActive = true
-  }else{
+  } else {
     state.isActive = false
   }
 }
 </script>
 
 <style scoped>
-.red{
-  color:red;
+.red {
+  color: red;
 }
 </style>
