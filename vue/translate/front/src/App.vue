@@ -1,17 +1,13 @@
 <template>
   <div>
-    <weather />
+    <Translate />
   </div>
 </template>
 
 <script setup>
-
-import weather from './components/weather.vue'
-
+import Translate from './components/translate.vue'
 </script>
-
 
 <style lang="css" scoped>
 
 </style>
-翻译器
