@@ -30,7 +30,7 @@ const getCompletion = async (premot) => {
 const main = async (message) => {
     const user_message = message
 
-    const prompt = `请帮我翻译以下的文字到英文，只需要给出英文单词，"${user_message[0]}"`
+    const prompt = `请帮我翻译以下的文字到"${user_message[2]}"，只需要给出以下内容的"${user_message[2]}",不需要其他的话："${user_message[0]}"`
     const result = await getCompletion(prompt)
     return result
 };
@@ -43,9 +43,11 @@ const server = http.createServer(async (req, res) => {
     //获取到前端的参数
     const query = new URL(req.url, `http://${req.headers.host}`).searchParams;
     const inputText = query.get("inputText");
+    const from = query.get("from");
+    const to = query.get("to");
 
     const message = [
-        inputText
+        inputText,from,to
     ]
 
     const result = await main(message)

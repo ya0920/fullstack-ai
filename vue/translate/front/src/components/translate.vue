@@ -46,11 +46,15 @@ const change = () => {
 const handle = () => {
     //console.log(state.inputText)
     //将用户输入的文本发送给后端
-    axios.get(`http://localhost:3000?inputText=${state.inputText}`)
+    console.log(`Sending request to: http://localhost:3000?inputText=${state.inputText}&from=${state.from}&to=${state.to}`);
+    axios.get(`http://localhost:3000?inputText=${state.inputText}&from=${state.from}&to=${state.to}`)
         .then(response => {
             console.log(response.data)
             state.outputText = response.data
         })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 </script>
@@ -130,26 +134,27 @@ const handle = () => {
     cursor: pointer;
 }
 
-.content{
+.content {
     margin-top: 16px;
     display: flex;
 }
 
-.content .item{
+.content .item {
     flex: 1;
     height: 192px;
-     
+
 }
-.content .item:last-child{
+
+.content .item:last-child {
     margin-left: 16px;
 }
-.content .item textarea{
+
+.content .item textarea {
     width: 100%;
     height: 100%;
     border-radius: 8px;
     padding: 10px 6px;
     box-sizing: border-box;
-    font-size: 18px; 
+    font-size: 18px;
 }
-
 </style>
