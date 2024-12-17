@@ -46,7 +46,6 @@ const change = () => {
 const handle = () => {
     //console.log(state.inputText)
     //将用户输入的文本发送给后端
-    console.log(`Sending request to: http://localhost:3000?inputText=${state.inputText}&from=${state.from}&to=${state.to}`);
     axios.get(`http://localhost:3000?inputText=${state.inputText}&from=${state.from}&to=${state.to}`)
         .then(response => {
             console.log(response.data)
