@@ -16,9 +16,9 @@ const crawlAPP = createCrawl({
 const crawlOpenAI = createCrawlOpenAI({
     clientOptions: {
         apiKey: process.env.OPENAI_API_KEY,
-        apiBaseUrl: process.env.OPENAI_API_BASE_URL,
+        apiBaseUrl: process.env.OPENAI_BASE_URL,
     },
-    defaultModel: { chatModel: "qwen-plus" },
+    defaultModel: { chatModel: "GPT-4o" },
 })
 
 // 开始爬虫
