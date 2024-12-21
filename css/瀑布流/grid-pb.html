@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./data.js"></script>
+  <style>
+    .masonry{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 5px;
+      grid-auto-rows: auto;
+      /* grid-template-rows: 1fr 1fr 1fr; 每一行的高度由内容说了算*/ 
+    }
+    .item{
+      grid-row-start: auto;
+    }
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="masonry">
+      <img class="item" ref="imgRefs" v-for="item in images" :src="item.img" alt="">
+    </div>
+  </div>
+
+  <script>
+    const { createApp, ref, onMounted } = Vue
+
+    createApp({
+      setup() {
+        const images = ref(data)
+
+        const imgRefs = ref(null)
+
+        onMounted(() => { // 在页面渲染完成后执行
+          imgRefs.value.forEach((item) => {
+            let src = item.getAttribute('src')
+            let image = new Image()  // 创建一个新的图片对象
+            image.src = src // 给图片对象的src属性赋值浏览器就会加载图片
+            let width = item.width
+            // 防止页面上的 img 标签还没有渲染完成就执行下面的代码
+            image.onload = () => {
+              let w = image.width
+              let h = image.height
+              let height = Math.round(width * h / w)
+              item.src = src
+              item.style.gridRowEnd = `span  ${~~(height / 10)}`
+            }
+          })
+        })
+
+        return {
+          images,
+          imgRefs
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

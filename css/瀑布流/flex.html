@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./data.js"></script>
+  <style>
+    .masonry{
+      display: flex;
+    }
+    .colmun{
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0 2px;
+    }
+    .item{
+      margin-bottom: 5px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="masonry">
+      <div class="colmun">
+        <img class="item" v-for="item in data1" :src="item.img" alt="">
+      </div>
+      <div class="colmun">
+        <img class="item" v-for="item in data2" :src="item.img" alt="">
+      </div>
+      <div class="colmun">
+        <img class="item" v-for="item in data3" :src="item.img" alt="">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp, ref } = Vue
+
+    createApp({
+      setup() {
+        const images = ref(data)
+        const data1 = ref([])
+        const data2 = ref([])
+        const data3 = ref([])
+
+        let i = 0
+        while(i < data.length) {
+          data1.value.push(data[i++])
+
+          if (i < data.length) {
+            data2.value.push(data[i++])
+          }
+
+          if (i < data.length) {
+            data3.value.push(data[i++])
+          }
+
+        }
+
+        console.log(data1.value, data2.value, data3.value);
+        
+        return {
+          data1,
+          data2,
+          data3
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>
