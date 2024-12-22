@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">提交</button>
+
+  <script>
+    let btn = document.getElementById('btn')
+
+    function handle(e) {
+      console.log('向后端发送请求');
+      console.log(e);
+      
+    }
+
+    btn.addEventListener('click', throttle(handle, 1000))
+
+
+    function throttle(fn, wait) {
+      let preTime = null
+      return function (...args) {
+        let nowTime = Date.now()
+        if (nowTime - preTime > wait) {
+          fn.call(this, ...args)
+          preTime = nowTime
+        }
+      }
+    }
+  </script>
+</body>
+</html>
