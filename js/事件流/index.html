@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .red {
+            background-color: red;
+            height: 400px;
+            width: 400px;
+        }
+        .green {
+            background-color: green;
+            height: 300px;
+            width: 300px;
+            /* margin: 50px; */
+        }
+        .blue {
+            background-color: blue;
+            height: 200px;
+            width: 200px;
+            /* margin: 50px; */
+        }
+    </style>
+</head>
+<body>
+    <div class="red">
+        <div class="green">
+            <div class="blue"></div>
+        </div>
+    </div>
+
+    <script>
+        let red = document.querySelector('.red');
+        let green = document.querySelector('.green');
+        let blue = document.querySelector('.blue');
+
+        //三个参数：事件类型，事件处理函数，是否冒泡
+        red.addEventListener('click', () => {
+            console.log('red');
+        });
+
+        // 1..阻止事件流传播
+        // red.addEventListener('click', (e) => {
+        //     console.log('red');
+        //     e.stopPropagation();
+        // });
+
+        // 只能一个事件
+        // red.addEventListener('click', () => {
+        //     console.log('red2');
+        // });
+
+        green.addEventListener('click', () => {
+            console.log('green');
+        });
+
+
+        // blue.addEventListener('click', (e) => {
+        //     console.log('blue');
+        //     e.stopPropagation();//阻止事件流传播
+        // }, true);
+
+        blue.addEventListener('click', (e) => {
+            console.log('blue');
+            e.stopImmediatePropagation();//阻止事件流传播
+        }, true);
+
+
+    </script>
+</body>
+</html>
