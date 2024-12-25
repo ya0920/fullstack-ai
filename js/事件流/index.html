@@ -36,10 +36,10 @@
         let green = document.querySelector('.green');
         let blue = document.querySelector('.blue');
 
-        //三个参数：事件类型，事件处理函数，是否冒泡
+        // 三个参数：事件类型，事件处理函数，是否冒泡（默认false冒泡）
         red.addEventListener('click', () => {
             console.log('red');
-        });
+        }, false);
 
         // 1..阻止事件流传播
         // red.addEventListener('click', (e) => {
