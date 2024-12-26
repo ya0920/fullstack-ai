@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1 id="count">1</h1>
+    <button id="btn">add</button>
+  </div>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const h1 = document.getElementById('count');
+
+
+    let obj = {
+      count: 1
+    }
+    watch(obj, 'count', (newVal, oldVal) => {
+      console.log(12312312);
+      
+      h1.innerHTML = newVal;
+    })
+
+
+    function watch(obj, key, cb) {
+      let value = obj[key];
+      Object.defineProperty(obj, key, {
+        get() {
+          return value;
+        },
+        set(newVal) {
+          cb(newVal, value);
+          value = newVal;
+        }
+      })
+    }
+
+
+    btn.addEventListener('click', () => {
+      obj.count++;
+    })
+
+  </script>
+</body>
+
+</html>
