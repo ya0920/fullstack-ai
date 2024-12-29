@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="pic"></div>
+
+  <script>
+    let pic = document.getElementById('pic')
+    let arr = [
+      "https://t7.baidu.com/it/u=1732966997,2981886582&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=1785207335,3397162108&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=2581522032,2615939966&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=245883932,1750720125&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=3423293041,3900166648&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=3241434606,2550606435&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=1417505637,1247476664&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=3659156856,3928250034&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=1416385889,2308474651&fm=193&f=GIF",
+      "https://t7.baidu.com/it/u=2469680087,3014121106&fm=193&f=GIF",
+    ]
+
+    // 创建一个新的线程
+    const worker = new Worker('worker.js')
+    // 将数据发送给子线程
+    worker.postMessage(arr)
+    // 接收子线程发送的数据
+    worker.onmessage = function (e) {
+      console.log(e.data);
+      const img = new Image()
+      // console.log(window.URL.createObjectURL(e.data));
+      img.src = window.URL.createObjectURL(e.data)
+      pic.appendChild(img)
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    img{
+      height: 300px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <img src="" data-src="https://t7.baidu.com/it/u=1732966997,2981886582&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=1785207335,3397162108&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=2581522032,2615939966&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=245883932,1750720125&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=3423293041,3900166648&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=3241434606,2550606435&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=1417505637,1247476664&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=3659156856,3928250034&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=1416385889,2308474651&fm=193&f=GIF" alt="">
+  <img src="" data-src="https://t7.baidu.com/it/u=2469680087,3014121106&fm=193&f=GIF" alt="">
+
+  <script>
+    let height = window.innerHeight
+
+    // 判断默认情况下应该展示那些图片
+    function lazyLoad() {
+      let imgs = document.querySelectorAll('img[data-src]')
+      
+      for (let i = 0; i < imgs.length; i++) {
+        let rect = imgs[i].getBoundingClientRect() // 获取元素的集合属性
+        if (rect.bottom > 0 && rect.top < height) {
+          // imgs[i].src = imgs[i].getAttribute('data-src')
+          
+          let newImg = new Image()
+          newImg.src = imgs[i].getAttribute('data-src')
+          newImg.onload = function () { // 图片被浏览器加载完毕
+            imgs[i].src = newImg.getAttribute('src')
+          }
+          imgs[i].removeAttribute('data-src')
+        }
+        
+      }
+    }
+    lazyLoad()
+
+    window.addEventListener('scroll', lazyLoad)
+    
+  </script>
+
+</body>
+</html>
