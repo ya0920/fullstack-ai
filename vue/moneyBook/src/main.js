@@ -4,7 +4,7 @@ import App from './App.vue'
 import { Button, Form, Field, CellGroup } from 'vant'
 import 'vant/lib/index.css'
 import 'lib-flexible/flexible'
-import router from '@/router'
+import router from '@/router/index'
 
 const app = createApp(App)
 app.use(Button)
