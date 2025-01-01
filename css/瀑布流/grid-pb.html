@@ -8,17 +8,19 @@
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="./data.js"></script>
   <style>
-    .masonry{
+    .masonry {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 5px;
       grid-auto-rows: auto;
-      /* grid-template-rows: 1fr 1fr 1fr; 每一行的高度由内容说了算*/ 
+      /* grid-template-rows: 1fr 1fr 1fr; 每一行的高度由内容说了算*/
     }
-    .item{
+
+    .item {
       grid-row-start: auto;
     }
-    img{
+
+    img {
       width: 100%;
       height: 100%;
     }
@@ -51,9 +53,9 @@
             image.onload = () => {
               let w = image.width
               let h = image.height
-              let height = Math.round(width * h / w)
+              let height = Math.round(width * h / w) // 计算图片的高度，保持图片的比例 
               item.src = src
-              item.style.gridRowEnd = `span  ${~~(height / 10)}`
+              item.style.gridRowEnd = `span  ${~~(height / 10)}` // 10 是每一行的高度，应当跨越几行
             }
           })
         })
