@@ -5,7 +5,7 @@ import router from '@/router/index';
 axios.defaults.baseURL = 'http://121.43.166.28:7009'; // 此处填写后端接口地址,方便修改地址
 axios.defaults.withCredentials = true; // 允许携带 cookie
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'; // 设置请求头
-axios.defaults.headers['Authorization'] = 'xxxxxx'; // 将一个能证明身份的东西放在请求头中
+axios.defaults.headers['Authorization'] = localStorage.getItem('token'); // 将一个能证明身份的东西放在请求头中
 axios.defaults.headers.post['Content-Type'] = 'application/json'; // 设置post请求头(要JSON格式)
 
 

@@ -95,7 +95,7 @@ const onLogin = async (values) => {
     localStorage.setItem('token', res.data.token);
     console.log(res);
 
-    router.push('/page');
+    router.push('/home');
 
 };
 

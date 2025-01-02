@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
-import { Button, Form, Field, CellGroup } from 'vant'
+import { Button, Form, Field, CellGroup, Tabbar, TabbarItem, Icon, Popup } from 'vant'
 import 'vant/lib/index.css'
 import 'lib-flexible/flexible'
 import router from '@/router/index'
@@ -12,4 +12,8 @@ app.use(router)
 app.use(Form)
 app.use(Field)
 app.use(CellGroup)
+app.use(Tabbar)
+app.use(TabbarItem)
+app.use(Icon)
+app.use(Popup)
 app.mount('#app')
