@@ -60,6 +60,7 @@ const getBillList = async () => {
     // 实现下拉刷新
     // 实现上拉加载更多
     // 收入和支出在页面上的颜色不同
+    
 }
 
 const changeType = () => {
