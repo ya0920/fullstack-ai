@@ -36,7 +36,7 @@
 import { ref } from 'vue';
 import PopType from '@/components/PopType.vue';
 import PopTime from '@/components/PopTime.vue';
-import formatDate from '../utils/date';
+import {formatDate} from '../utils/date';
 import cardItem from '../components/cardItem.vue';
 import axios from '@/api/index';
 import { get } from 'vant/lib/utils';
