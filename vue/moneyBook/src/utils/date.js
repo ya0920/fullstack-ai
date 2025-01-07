@@ -1,7 +1,8 @@
 function formatDate(date) {
     let year = date.getFullYear();
     let month = (date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1);
-    return [year, month];
+    let day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    return [year, month, day];
 }
 
 function formatHour(date) {

@@ -2,7 +2,6 @@
 
     <van-popup v-model:show="show" position="bottom" round>
         <van-date-picker v-model="currentDate" title="选择年月" :min-date="minDate" :max-date="maxDate" :columns-type="columnsType" @cancel="() => show = false" @confirm="selectTime" />
-
     </van-popup>
 
 </template>

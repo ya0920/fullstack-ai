@@ -23,7 +23,7 @@
             </van-pull-refresh>
 
         </div>
-        <div class="save" @click="()=>{}">
+        <div class="save" @click="addBill">
             <van-icon name="records-o" size="20" />
             <span>记一笔</span>
         </div>
@@ -31,7 +31,7 @@
 
     <PopType ref="PopTypeRef" @updateType="updateType" />
     <PopTime ref="PopTimeRef" @updateDate="updateTime" />
-
+    <PopAdd ref="PopAddRef" @updateBill="updateBill"/>
 </template>
 
 <script setup>
@@ -43,12 +43,10 @@ import { formatDate } from '../utils/date';
 import CardItem from '../components/cardItem.vue';
 import axios from '@/api/index';
 
-
-
 const PopTypeRef = ref(null);                    // 类型弹出框 changeType
 const selectedType = ref({});                    // 选择类型 updateType
 const PopTimeRef = ref(null);                    // 时间弹出框 changeTime
-const selectedTime = ref(formatDate(new Date()));// 选择时间 updateTime
+const selectedTime = ref(formatDate(new Date()).slice(0, -1));// 选择时间 updateTime
 const refreshLoading = ref(false);                      // 控制“下拉刷新”展示
 const loadingMore = ref(false);                         // 控制“加载更多”展示
 
@@ -61,6 +59,8 @@ const bill = reactive({
 
 const finished = ref(false);                    // 控制“没有更多了”展示，列表数据是否加载完毕
 const page = ref(1);                             // 当前页数
+
+const PopAddRef = ref(null);                    // 记一笔弹出框
 
 
 // list 列表加载时
@@ -108,11 +108,23 @@ const updateTime = async (newTime) => {
 }
 
 const onRefresh = async () => {
+    page.value = 1;
     refreshLoading.value = true;
     // 请求完成后，关闭下拉刷新
     getBillList().then(() => {
         refreshLoading.value = false;
     });
+}
+
+const addBill = () => {
+    PopAddRef.value.show = true;
+}
+
+const updateBill = async () => {
+    page.value = 1;
+    bill.list = [];
+    await getBillList();
+    finished.value = false;
 }
 
 </script>

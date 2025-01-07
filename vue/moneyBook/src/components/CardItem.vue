@@ -1,22 +1,17 @@
 <template>
   <van-cell-group>
     <div class="head">
-      <div class="date">{{billItem.date.split('-')[1]}}月{{billItem.date.split('-')[2]}}日</div>
+      <div class="date">{{ billItem.date.split('-')[1] }}月{{ billItem.date.split('-')[2] }}日</div>
       <div class="money">
-        <span><i>出</i>{{expense}}</span>
-        <span><i>入</i>{{income}}</span>
+        <span><i>出</i>{{ expense }}</span>
+        <span><i>入</i>{{ income }}</span>
       </div>
     </div>
-    <van-cell 
-      v-for="item in billItem.bills" 
-      :key="item.id" 
-      :title="item.type_name" 
-      :value="`${item.pay_type === 1 ? '-' : '+'}${item.amount}`" 
-      :label="`${formatHour(+item.date)} ${item.remark}`"
-      :value-class="`${item.pay_type === 1? 'expense' : 'cart-income'}`"
-    >
+    <van-cell v-for="item in billItem.bills" :key="item.id" :title="item.type_name"
+      :value="`${item.pay_type === 1 ? '-' : '+'}${item.amount}`" :label="`${formatHour(+item.date)} ${item.remark}`"
+      :value-class="`${item.pay_type === 1 ? 'expense' : 'cart-income'}`" @click="goDetail(item)">
       <template #icon>
-        <div class="icon" :class="{'income': item.pay_type === 2}">
+        <div class="icon" :class="{ 'income': item.pay_type === 2 }">
           <i class="iconfont icon-shouye"></i>
         </div>
       </template>
@@ -28,6 +23,9 @@
 <script setup>
 import { ref, defineProps, computed } from 'vue'
 import { formatHour } from '@/utils/date.js'
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const props = defineProps({
   billItem: {
@@ -37,6 +35,7 @@ const props = defineProps({
 })
 
 // 当computed中使用的响应式数据值发生变更，会重新执行computed中的函数
+
 const expense = computed(() => {
   let res = 0
   props.billItem.bills.forEach(item => {
@@ -46,6 +45,7 @@ const expense = computed(() => {
   })
   return res.toFixed(2)
 })
+
 const income = computed(() => {
   let res = 0
   props.billItem.bills.forEach(item => {
@@ -56,25 +56,38 @@ const income = computed(() => {
   return res.toFixed(2)
 })
 
+const goDetail = (item) => {
+  console.log(item)
+  router.push({
+    path: '/detail',
+    query: {
+      id: item.id
+    }
+  })
+}
 
 </script>
 
 <style lang="less" scoped>
-.head{
+.head {
   height: 60px;
   display: flex;
   justify-content: space-between;
   padding: 0 15px;
   align-items: center;
   background-color: #f9f9f9;
-  .date{
+
+  .date {
     font-size: 16px;
   }
- .money{
+
+  .money {
     font-size: 14px;
-    span{
+
+    span {
       margin-left: 15px;
-      i{
+
+      i {
         display: inline-block;
         margin-right: 5px;
         font-weight: 200;
@@ -87,7 +100,8 @@ const income = computed(() => {
     }
   }
 }
-.icon{
+
+.icon {
   width: 30px;
   height: 30px;
   background-color: #37a762;
@@ -97,14 +111,17 @@ const income = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  .iconfont{
+
+  .iconfont {
     color: #fff;
   }
-  &.income{
+
+  &.income {
     background-color: #f2b63b;
   }
 }
-:deep(.cart-income){
-  color: #f2b63b!important;
+
+:deep(.cart-income) {
+  color: #f2b63b !important;
 }
 </style>

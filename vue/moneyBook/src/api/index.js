@@ -21,7 +21,7 @@ axios.interceptors.response.use((res) => {
         if (res.data.code === 401) { // 401是后端返回的未登录状态码,未登录则跳转到登录页
             router.push('/login');
         }
-        return Promise.reject(res);
+        // return Promise.reject(res);
     }
 
     return res.data
