@@ -50,11 +50,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, defineEmits } from 'vue';
+import { ref, toRef, onMounted, reactive, defineEmits, watch } from 'vue';
 import axios from '@/api/index';
 import icons from '@/utils/icons';
 import { formatDate } from '@/utils/date';
 import { showToast } from 'vant';
+
+const props = defineProps({
+    billDetail: {             // 可以直接在html使用，不能直接在js中使用
+        type: Object,
+        default: () => ({})
+    }
+})
 
 const show = ref(false);
 const showTime = ref(false);
@@ -68,6 +75,17 @@ const state = reactive({
     remark: '',                        // 备注
     amount: ''                         // 金额
 })
+watch(() => props.billDetail, (newVal) => {
+    if (newVal.id) {              // watch监听到billDetail有值，watch后行
+        state.payType = newVal.pay_type === 2 ? 'income' : 'expense';
+        state.currentType = newVal.pay_type === 2 ? state.income.find(item => item.id === newVal.type_id) : state.expense.find(item => item.id === newVal.type_id);
+        state.remark = newVal.remark;
+        state.amount = newVal.amount;
+        state.date = formatDate(new Date(Number(newVal.date)));
+        console.log(newVal.date);
+    }
+})
+
 
 const emit = defineEmits(['updateBill']);
 
@@ -119,18 +137,28 @@ const addBill = async () => {
         date: new Date(state.date.join('-')).getTime(),
         pay_type: state.payType === 'expense' ? 1 : 2,
         remark: state.remark,
+        id: props.billDetail.id
     }
-    const res = await axios.post('/api/bill/add', params)
-    // console.log(res);
+
+    if (props.billDetail.id) {
+        // 编辑
+        await axios.post('/api/bill/update', params)
+    }
+    else {
+        // 新增
+        await axios.post('/api/bill/add', params)
+        // 清空数据
+        state.amount = '';
+        state.remark = '';
+        state.currentType = state.expense[0];
+        state.date = formatDate(new Date());
+        state.payType = 'expense';
+    }
     show.value = false;
+
     // 促使父组件重新请求数据
     emit('updateBill');
-    // 清空数据
-    state.amount = '';
-    state.remark = '';
-    state.currentType = state.expense[0];
-    state.date = formatDate(new Date());
-    state.payType = 'expense';
+
 }
 
 defineExpose({
