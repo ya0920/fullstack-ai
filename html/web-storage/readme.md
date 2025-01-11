@@ -5,3 +5,4 @@
 永久存储
 
 # sessionStorage 5Mb
+只在当前会话中有效
