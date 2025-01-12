@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="insertOneData()">存一条数据</button>
+    <button onclick="insertManyData()">批量存数据</button>
+    <button onclick="queryDataByKey()">查询某条数据</button>
+    <button onclick="queryAllData()">查询所有数据</button>
+    <button onclick="updateData()">更新数据</button>
+    <button onclick="deleteData()">删除数据</button>
+
+    <script>
+        const dbName = 'myDB'
+        const dbVersion = 2.1
+        let db;
+
+        // 链接数据库
+        function connectDB() {
+            const request = window.indexedDB.open(dbName, dbVersion) // 打开数据库
+
+            request.onerror = function (event) {
+                console.log('数据库打开失败')
+            }
+
+            request.onupgradeneeded = function (event) {
+                console.log('数据库版本发生变化')
+                db = event.target.result
+                if (!db.objectStoreNames.contains('user')) {  // 判断是否存在user对象仓库(表)
+                    db.createObjectStore('user', {
+                        keyPath: 'id',
+                        autoIncrement: true
+                    })
+                }
+            }
+
+            request.onsuccess = function (event) {
+                console.log('数据库打开成功')
+                db = event.target.result
+            }
+        }
+        connectDB()
+
+        function insertOneData() {
+            // 事务
+            const transaction = db.transaction(['user'], 'readwrite')
+            // 操作对象仓库
+            const objectStore = transaction.objectStore('user')
+            // 写入数据
+            const res = objectStore.add({
+                id: 1,
+                name: '张三',
+                age: 18,
+                gender: '男',
+                createAt: new Date().getTime()
+            })
+            res.onsuccess = function (event) {
+                console.log('数据写入成功')
+            }
+            res.onerror = function (event) {
+                console.log('数据写入失败')
+            }
+        }
+        function insertManyData() {
+            const transaction = db.transaction(['user'], 'readwrite')
+            const objectStore = transaction.objectStore('user')
+            const data = [
+                {
+                    id: 2,
+                    name: '李四',
+                    age: 18,
+                    gender: '男',
+                    createAt: new Date().getTime()
+                },
+                {
+                    id: 3,
+                    name: '王五',
+                    age: 19,
+                    gender: '男',
+                    createAt: new Date().getTime()
+                },
+                {
+                    id: 4,
+                    name: '赵六',
+                    age: 20,
+                    gender: '男',
+                    createAt: new Date().getTime()
+                }
+            ]
+            data.forEach(item => {
+                const res = objectStore.add(item)
+                res.onsuccess = function (event) {
+                    console.log('数据写入成功')
+                }
+                res.onerror = function (event) {
+                    console.log('数据写入失败')
+                }
+            })
+
+        }
+        function queryDataByKey() {
+            const transaction = db.transaction(['user'], 'readonly')
+            const objectStore = transaction.objectStore('user')
+            const res = objectStore.get(2)
+            res.onsuccess = function (event) {
+                console.log('数据查询成功', event.target.result)
+            }
+            res.onerror = function (event) {
+                console.log('数据查询失败')
+            }
+        }
+        function queryAllData() {
+            const transaction = db.transaction(['user'], 'readonly')
+            const objectStore = transaction.objectStore('user')
+
+            // 一次性，如果要筛选数据，写 js 代码筛选
+            const res = objectStore.getAll()
+            res.onsuccess = function (event) {
+                const cursor = event.target.result
+                if (cursor) {
+                    console.log('数据查询成功', cursor)
+                } else {
+                    console.log('数据查询完毕')
+                }
+            }
+            res.onerror = function (event) {
+                console.log('数据查询失败')
+            }
+
+            // 逐条查询
+            // const cursor = objectStore.openCursor()
+            // cursor.onsuccess = function (event) {
+            //     const cursor = event.target.result
+            //     if (cursor) {
+            //         console.log('数据查询成功', cursor)
+            //         cursor.continue()
+            //     } else {
+            //         console.log('数据查询完毕')
+            //     }
+            // }
+        }
+        function updateData() {
+            const transaction = db.transaction(['user'], 'readwrite')
+            const objectStore = transaction.objectStore('user')
+            const res = objectStore.put({
+                id: 2,
+                name: '李四',
+                age: 20,
+                gender: '男',
+                createAt: new Date().getTime()
+            })
+            res.onsuccess = function (event) {
+                console.log('数据更新成功')
+            }
+            res.onerror = function (event) {
+                console.log('数据更新失败')
+            }
+
+        }
+        function deleteData() {
+            const transaction = db.transaction(['user'], 'readwrite')
+            const objectStore = transaction.objectStore('user')
+            const res = objectStore.delete(2)
+            res.onsuccess = function (event) {
+                console.log('数据删除成功')
+            }
+            res.onerror = function (event) {
+                console.log('数据删除失败')
+            }
+        }
+    </script>
+</body>
+
+</html>
