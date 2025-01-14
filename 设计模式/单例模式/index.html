@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,50 +10,58 @@
             width: 200px;
             height: 200px;
             line-height: 200px;
-            text-align: center; 
+            text-align: center;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             border: 1px solid #000;
+            transition: opacity 0.3s ease-in-out;
+            /* 添加过渡效果，使元素的不透明度在 0.3 秒内平滑过渡 */
+            opacity: 0;
+            /* 初始状态下元素的不透明度为 0，即完全透明 */
         }
     </style>
 </head>
+
 <body>
     <button id="open">打开弹窗</button>
     <button id="close">关闭弹窗</button>
-
     <script>
-        // const model = function (flag) {
-        //     let div = document.createElement('div')
-        //     div.innerHTML = '我是一个全局弹框'
-        //     div.id = 'model'
-        //     div.style.position = flag
-        //     document.body.appendChild(div)
-        // }
-
-        const Model = (function() {
+        const Model = (function () {
             let model = null;
-            return function(flag) {
-                if (!model) {
-                    model = document.createElement('div')
-                    model.innerHTML = '我是一个全局弹框'
-                    model.id ='model'
-                    document.body.appendChild(model)
+            // 内部函数，用于创建或显示/隐藏弹窗
+            return function (flag) {
+
+                if (!model) {    // 检查弹窗元素未创建
+                    model = document.createElement('div');
+                    model.innerHTML = '我是一个全局弹框';
+                    model.id = 'model';
+                    document.body.appendChild(model);
                 }
-                model.style.display = flag
-                return model
+
+                // 始终将元素的 display 属性设置为 block，确保元素存在但可能不可见
+                model.style.display = 'block';
+                // 根据传入的 flag 设置元素的不透明度，实现显示或隐藏
+                model.style.opacity = flag === 'block' ? '1' : '0';
+                // 返回创建或已存在的弹窗元素
+                return model;
             }
-        })()
+        })();
 
+        // 为打开弹窗的按钮添加点击事件监听器
         document.getElementById('open').addEventListener('click', () => {
-            Model('block')
-        })
+            // 调用 Model 函数并传入 'block' 显示弹窗
+            Model('block');
+        });
 
-        
+
+        // 为关闭弹窗的按钮添加点击事件监听器
         document.getElementById('close').addEventListener('click', () => {
-            Model('none')
-        })
+            // 调用 Model 函数并传入 'none' 隐藏弹窗
+            Model('none');
+        });
     </script>
 </body>
+
 </html>

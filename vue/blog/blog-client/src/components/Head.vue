@@ -2,7 +2,7 @@
     <div class="blog-header">
         <div class="nav">
             <div class="logo">
-                <img src="@/assets/vue.svg" alt="">
+                <img src="@/assets/logo2.png" alt="">
             </div>
             <div class="link">
                 <router-link to="/home">首页</router-link>
@@ -49,7 +49,7 @@ const inputSearch = ref('')
         align-items: center;
 
         .logo {
-            width: 30px;
+            width: 60px;
 
             img {
                 width: 100%;
