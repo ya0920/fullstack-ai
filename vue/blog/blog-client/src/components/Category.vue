@@ -2,14 +2,24 @@
     <div class="category">
         <div class="title">文章分类</div>
         <ul class="category-list">
-            <li class="item" v-for="n in 8">
-                <span>前端开发(15)</span>
+            <li class="item" v-for="item in categoryList" :key="item.id">
+                <span>{{item.name}}({{ item.article_count }})</span>
             </li>
         </ul>
     </div>
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
+import { getAllArticleCategory } from '../api';
+
+const categoryList = ref([]);
+
+onMounted(async () => {
+    const res = await getAllArticleCategory();
+    console.log(res);
+    categoryList.value = res.data;
+});
 
 </script>
 

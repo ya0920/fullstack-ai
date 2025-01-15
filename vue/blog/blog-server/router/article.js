@@ -2,6 +2,7 @@
 const Router = require('koa-router')
 const router = new Router()
 const { getNewsArticleList } = require('../controllers/index.js')
+const { getAllArticleCategory } = require('../controllers/index.js')
 // 路由前缀
 router.prefix('/article')
 
@@ -25,6 +26,35 @@ router.get('/getNewsArticleList', async (ctx, next) => { // 浏览器只能发ge
             }
         }
     } catch (error) {
+        ctx.body = {
+            code: 500,
+            data: error,
+            msg: '服务器异常'
+        }
+    }
+})
+
+// 文章分类
+router.get('/getAllArticleCategory', async (ctx, next) => {
+    try {
+        const res = await getAllArticleCategory()
+
+        if (res.length) {//有数据
+            ctx.body = {
+                code: 200,
+                data: res,
+                msg: '获取文章分类成功'
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                data: [],
+                msg: '暂无数据'
+            }
+        }
+    }
+    catch (
+        error) {
         ctx.body = {
             code: 500,
             data: error,

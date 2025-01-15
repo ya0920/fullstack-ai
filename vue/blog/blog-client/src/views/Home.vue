@@ -1,47 +1,57 @@
 <template>
     <div class="blog-home">
-        <div class="home-content_left">
-            <div class="user-info">
-                <div class="avatar">
-                    <img src="@/assets/vue.svg" alt="">
-                </div>
-                <div class="user-desc">
-                    <p class="name">青青奇犽</p>
-                    <div class="describle">全栈开发工程师，专注于Web开发和人工智能技术，热爱分享技术经验和学习心得。</div>
-                    <div class="tag">
-                        <span>前端开发</span>
-                        <span>人工智能</span>
-                        <span>Python</span>
-                    </div>
-                </div>
-            </div>
-            <div class="news-article">
-                <div class="title">最新文章</div>
-                <div class="article-list">
-                    <div class="article-item" v-for="item in newsArticleList" :key="item.id">
-                        <div class="article-pic">
-                            <img :src="item.article_cover_pic" alt="">
+        <LayoutLeftRight>
+            <template v-slot:left>
+                <div class="home-content_left">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <img src="@/assets/avatar.png" alt="">
                         </div>
-                        <div class="article-desc">
-                            <div class="name">{{ item.title }}</div>
-                            <div class="introduce">{{ item.article_desc }}</div>
-                            <div class="time">
-                                <span>{{ formateDate(item.create_time) }}</span>
-                                <router-link to="/detail">阅读更多</router-link>
+                        <div class="user-desc">
+                            <p class="name">青青奇犽</p>
+                            <div class="describle">全栈开发工程师，专注于Web开发和人工智能技术，热爱分享技术经验和学习心得。</div>
+                            <div class="tag">
+                                <span>前端开发</span>
+                                <span>人工智能</span>
+                                <span>Python</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="news-article">
+                        <div class="title">最新文章</div>
+                        <div class="article-list">
+                            <div class="article-item" v-for="item in newsArticleList" :key="item.id">
+                                <div class="article-pic">
+                                    <img :src="item.article_cover_pic" alt="">
+                                </div>
+                                <div class="article-desc">
+                                    <div class="name">{{ item.title }}</div>
+                                    <div class="introduce">{{ item.article_desc }}</div>
+                                    <div class="time">
+                                        <span>{{ formateDate(item.create_time) }}</span>
+                                        <router-link to="/detail">阅读更多</router-link>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="home-model_right">
-            <Category />
-            <Callme class="mt32" />
-        </div>
+            </template>
+
+            <template v-slot:right>
+                <div class="home-model_right">
+                    <Category />
+                    <Callme class="mt32" />
+                </div>
+            </template>
+
+        </LayoutLeftRight>
+
     </div>
 </template>
 
 <script setup>
+import LayoutLeftRight from '../components/LayoutLeftRight.vue';
 import Category from '../components/Category.vue';
 import Callme from '../components/Callme.vue';
 import { getNewsArticlesList } from '@/api/index.js';
@@ -63,14 +73,7 @@ onMounted(async () => {
 
 <style lang="less" scoped>
 .blog-home {
-    padding: 26px 104px 48px 104px;
-    background-color: #F9FAFB;
-    display: flex;
-    min-height: calc(100vh - 210px); // 100vh表示视口高度，减去64px是为了让页面内容不超出屏幕
-
     .home-content_left {
-        flex: 1; // flex: 1表示占据剩余空间
-        margin-right: 32px;
 
         .user-info {
             padding: 24px;
@@ -197,15 +200,8 @@ onMounted(async () => {
         }
     }
 
-    .home-model_right {
-        flex: 0 0 390px; // 0 0 390px表示不伸缩，宽度为390px
-
-        .mt32 {
-            margin-top: 32px;
-        }
-    }
     @media screen and (max-width: 1200px) {
-        .home-model_right{
+        .home-model_right {
             display: none;
         }
     }

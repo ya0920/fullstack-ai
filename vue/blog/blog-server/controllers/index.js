@@ -33,6 +33,28 @@ const getNewsArticleList = () => {
   return allServices.query(_sql)
 }
 
+
+// 获取文章分类
+const getAllArticleCategory = () => {
+  let _sql = `
+    SELECT
+      t.id,
+      t.name,
+      COUNT(at.article_id) AS article_count
+    FROM 
+      tags t
+    LEFT JOIN 
+      article_tags at ON t.id = at.tag_id
+    GROUP BY
+      t.id,
+      t.name
+    ORDER BY 
+      article_count DESC;
+  `
+  return allServices.query(_sql)
+}
+
 module.exports = {
-  getNewsArticleList
+  getNewsArticleList,
+  getAllArticleCategory
 }

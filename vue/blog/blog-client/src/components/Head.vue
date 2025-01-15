@@ -12,7 +12,8 @@
             </div>
         </div>
         <div class="control">
-            <el-input size="large" :prefix-icon="Search" v-model="inputSearch" style="width: 240px" placeholder="搜索文章..." />
+            <el-input size="large" :prefix-icon="Search" v-model="inputSearch" style="width: 240px"
+                placeholder="搜索文章..." />
             <div class="user">
                 <router-link class="btn active" to="/login">登录</router-link>
                 <router-link class="btn" to="/register">注册</router-link>
@@ -63,7 +64,14 @@ const inputSearch = ref('')
                 font-size: 16px;
                 color: #374151;
                 margin-right: 24px;
+
+                &.router-link-exact-active {
+                    font-weight: 600;
+                    font-size: 18px;
+                    color: #8E6FF7;
+                }
             }
+
         }
 
 
@@ -98,7 +106,8 @@ const inputSearch = ref('')
         }
     }
 }
-.box{
+
+.box {
     height: 70px;
 }
 </style>

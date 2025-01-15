@@ -3,6 +3,11 @@
 2. 处理默认的样式
 3. 适配不同尺寸的屏幕（%）
 4. css 的预处理器（less，sass，stylus）：浏览器读不懂，只是让你在开发的时候写得更舒服，vite帮你编译
+5. 插槽 slot
+ - 定义一个子组件，希望该子组件只做一个外层容器，子组件中间还可以放上 dom 元素，那么就要在该子组件中放上插槽
+ - layoutLeftRight.vue：把样式做成一个组件，在组件里放上插槽 <slot name='xxx'>, 在父组件引入的子组件里放上<template v-slot:xxx>
+  1. 匿名插槽
+  2. 具名插槽
 
 # 路由
 1. npm i vue-router@4
@@ -36,3 +41,4 @@ http://      localhost    :3000      /article/getNewsArticleList
 
 1. 跨域是浏览器不接受后端的响应数据
 2. 后端
+
