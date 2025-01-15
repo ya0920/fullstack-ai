@@ -18,73 +18,46 @@
             <div class="news-article">
                 <div class="title">最新文章</div>
                 <div class="article-list">
-                    <div class="article-item">
+                    <div class="article-item" v-for="item in newsArticleList" :key="item.id">
                         <div class="article-pic">
-                            <img src="https://img95.699pic.com/photo/40041/5325.jpg_wh860.jpg" alt="">
+                            <img :src="item.article_cover_pic" alt="">
                         </div>
                         <div class="article-desc">
-                            <div class="name">深入理解React Hooks的原理与实践</div>
-                            <div class="introduce">探讨React Hooks的工作原理，以及在实际项目中的最佳
-                                实践方案...</div>
+                            <div class="name">{{ item.title }}</div>
+                            <div class="introduce">{{ item.article_desc }}</div>
                             <div class="time">
-                                <span>2025-01-01</span>
+                                <span>{{ formateDate(item.create_time) }}</span>
                                 <router-link to="/detail">阅读更多</router-link>
                             </div>
                         </div>
                     </div>
-                    <div class="article-item">
-                        <div class="article-pic">
-                            <img src="https://img95.699pic.com/photo/40041/5325.jpg_wh860.jpg" alt="">
-                        </div>
-                        <div class="article-desc">
-                            <div class="name">深入理解React Hooks的原理与实践</div>
-                            <div class="introduce">探讨React Hooks的工作原理，以及在实际项目中的最佳
-                                实践方案...</div>
-                            <div class="time">
-                                <span>2025-01-01</span>
-                                <router-link to="/detail">阅读更多</router-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-item">
-                        <div class="article-pic">
-                            <img src="https://img95.699pic.com/photo/40041/5325.jpg_wh860.jpg" alt="">
-                        </div>
-                        <div class="article-desc">
-                            <div class="name">深入理解React Hooks的原理与实践</div>
-                            <div class="introduce">探讨React Hooks的工作原理，以及在实际项目中的最佳
-                                实践方案...</div>
-                            <div class="time">
-                                <span>2025-01-01</span>
-                                <router-link to="/detail">阅读更多</router-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-item">
-                        <div class="article-pic">
-                            <img src="https://img95.699pic.com/photo/40041/5325.jpg_wh860.jpg" alt="">
-                        </div>
-                        <div class="article-desc">
-                            <div class="name">深入理解React Hooks的原理与实践</div>
-                            <div class="introduce">探讨React Hooks的工作原理，以及在实际项目中的最佳
-                                实践方案...</div>
-                            <div class="time">
-                                <span>2025-01-01</span>
-                                <router-link to="/detail">阅读更多</router-link>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
         <div class="home-model_right">
-
+            <Category />
+            <Callme class="mt32" />
         </div>
     </div>
 </template>
 
 <script setup>
+import Category from '../components/Category.vue';
+import Callme from '../components/Callme.vue';
+import { getNewsArticlesList } from '@/api/index.js';
+import { onMounted } from 'vue';
+import { ref } from 'vue';
+import { formateDate } from '../utils/formateDate.js';
+
+const newsArticleList = ref([]);
+
+onMounted(async () => {
+    const res = await getNewsArticlesList();
+    console.log(res);
+    newsArticleList.value = res.data;
+});
+
+
 
 </script>
 
@@ -93,6 +66,7 @@
     padding: 26px 104px 48px 104px;
     background-color: #F9FAFB;
     display: flex;
+    min-height: calc(100vh - 210px); // 100vh表示视口高度，减去64px是为了让页面内容不超出屏幕
 
     .home-content_left {
         flex: 1; // flex: 1表示占据剩余空间
@@ -225,6 +199,15 @@
 
     .home-model_right {
         flex: 0 0 390px; // 0 0 390px表示不伸缩，宽度为390px
+
+        .mt32 {
+            margin-top: 32px;
+        }
+    }
+    @media screen and (max-width: 1200px) {
+        .home-model_right{
+            display: none;
+        }
     }
 }
 </style>

@@ -30,12 +30,12 @@
     }
 
     .category-list {
-        overflow: hidden;
+        overflow: hidden; // 设置成BFC
 
         .item {
             float: left;
             margin: 4px;
-            overflow: auto;
+            overflow: auto; // 让li成为一个BFC容器，y轴方向的margin会重叠
 
             span {
                 display: block;
