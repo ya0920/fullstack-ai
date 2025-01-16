@@ -29,6 +29,7 @@
     background-color: #fff;
     border-radius: 8px;
     box-sizing: border-box;
+    box-shadow: 0px 4px 6px -1px rgba(0,0,0,0.1), 0px 2px 4px -2px rgba(0,0,0,0.1);
     .title{
       font-weight: 600;
       font-size: 18px;

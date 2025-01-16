@@ -1,11 +1,21 @@
 import axios from './axios.js'
 
 // 获取最新文章
-export const getNewsArticlesList = async() => {
+export const getNewsArticlesList = async () => {
     return await axios.get('/article/getNewsArticleList')
 }
 
 // 获取文章分类
-export const getAllArticleCategory = async() => {
+export const getAllArticleCategory = async () => {
     return await axios.get('/article/getAllArticleCategory')
+}
+
+// 获取文章列表
+export const getAllArticleList = async ({ page = 1, size = 5 }) => {
+    return await axios.get('/article/getAllArticleList', { params: { page, size } }
+)}
+
+// 根据id获取文章详情
+export const getArticleDetailById = async (id) => {
+    return await axios.get(`/article/getArticleDetailById`, { params: { id } })
 }

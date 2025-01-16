@@ -54,7 +54,48 @@ const getAllArticleCategory = () => {
   return allServices.query(_sql)
 }
 
+// 获取所有文章
+const getAllArticleList = ({ page, size }) => {
+  let _sql = `SELECT *
+              FROM article
+              ORDER BY create_time DESC, id DESC
+              LIMIT ${size} OFFSET ${(page - 1) * size};`;
+  return allServices.query(_sql);
+}
+
+// 获取所有文章数量
+const getAllArticleCount = () => {
+  let _sql = `SELECT COUNT(*) AS count FROM article;`
+  return allServices.query(_sql)
+}
+
+// 每篇文章的标签
+const OneArticleTags = () => {
+  let _sql = `SELECT 
+                a.id AS article_id,
+                GROUP_CONCAT(t.name SEPARATOR ', ') AS tag_names
+              FROM 
+                  article a
+              LEFT JOIN 
+                  article_tags at ON a.id = at.article_id
+              LEFT JOIN 
+                  tags t ON at.tag_id = t.id
+              GROUP BY 
+                  a.id;`
+  return allServices.query(_sql)
+}
+
+//根据文章id获取文章详情
+const getArticleDetailById = (id) => {
+  let _sql = `SELECT * FROM article WHERE id=${id};`
+  return allServices.query(_sql)
+}
+
 module.exports = {
   getNewsArticleList,
-  getAllArticleCategory
+  getAllArticleCategory,
+  getAllArticleList,
+  getAllArticleCount,
+  OneArticleTags,
+  getArticleDetailById
 }

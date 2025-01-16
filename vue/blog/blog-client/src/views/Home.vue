@@ -100,6 +100,7 @@ onMounted(async () => {
                     font-size: 20px;
                     line-height: 28px;
                     margin-bottom: 8px;
+
                 }
 
                 .describle {
@@ -170,6 +171,11 @@ onMounted(async () => {
                             color: #000000;
                             line-height: 28px;
                             margin-bottom: 8px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            -webkit-box-orient: vertical;
                         }
 
                         .introduce {
@@ -178,6 +184,11 @@ onMounted(async () => {
                             color: #4B5563;
                             line-height: 20px;
                             margin-bottom: 16px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
                         }
 
                         .time {

@@ -4,31 +4,30 @@
         <LayoutLeftRight>
 
             <template v-slot:left>
-                <div class="article-card">
-                    <div class="name">深入理解 JavaScript 闭包</div>
-                    <div class="desc">闭包是 JavaScript 中一个强大而复杂的特性。本文将深入探讨闭包的概念、用途以及潜在的陷阱，帮助你更好地理解和运用这一重要的编程技巧。闭包是
-                        JavaScript 中一个强大而复杂的特性。本文将深入探讨闭包的概念、用途以及潜在的陷阱，帮助你更好地理解和运用这一重要的编程技巧。
+                <div class="article-card" @click="goDetail(item.id)" v-for="item in articleList" :key="item.id">
+                    <div class="name">{{ item.title }}</div>
+                    <div class="desc">{{ item.article_desc }}
                     </div>
                     <div class="data">
                         <div class="data-left">
                             <div class="item">
                                 <i class="iconfont icon-rili"></i>
-                                <span>2023-06-15</span>
+                                <span>{{ formateDate(item.create_time) }}</span>
                             </div>
                             <div class="item">
                                 <i class="iconfont icon-yueduliang"></i>
-                                <span>3245 阅读 </span>
+                                <span>{{ item.read }} 阅读 </span>
                             </div>
                             <div class="item">
                                 <i class="iconfont icon-dianzan"></i>
-                                <span>325 点赞</span>
+                                <span>{{ item.like_num }} 点赞</span>
                             </div>
                         </div>
                         <div class="data-right">
-                            <div class="tag" :style="{ background: randomColor(150, 250), color: randomColor(0, 100) }">
-                                JavaScript</div>
-                            <div class="tag" :style="{ background: randomColor(150, 250), color: randomColor(0, 100) }">
-                                前端开发</div>
+                            <div v-if="item.tag_names" class="tag" v-for="tag in item.tag_names.split(',')"
+                                :style="{ background: randomColor(150, 250), color: randomColor(0, 100) }">
+                                {{ tag }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,6 +47,51 @@ import LayoutLeftRight from '../components/LayoutLeftRight.vue';
 import Category from '../components/Category.vue';
 import Callme from '../components/Callme.vue';
 import { randomColor } from '../utils/randomColor';
+import { getAllArticleList } from '../api/index.js';
+import { onMounted, ref } from 'vue';
+import { formateDate } from '../utils/formateDate.js';
+import { useRouter } from 'vue-router';
+
+const articleList = ref([]);
+const totalPage = ref(0);
+const page = ref(1);
+const size = 5;
+
+const getData = async () => {
+    const res = await getAllArticleList({ page: page.value, size: size });
+    // console.log(res);
+    articleList.value = [...articleList.value, ...res.data];
+    totalPage.value = res.totalPage;
+};
+
+// 获取文章列表
+onMounted(async () => {
+    getData()
+});
+
+// 获取下一页
+window.addEventListener('scroll', () => {
+    // 滚动条是否触底，触底则加载下一页
+    if (document.documentElement.scrollTop + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        getNextPage()
+    }
+});
+
+const getNextPage = () => {
+    if (page.value >= totalPage.value) {  // 已经是最后一页
+        return
+    }
+    page.value++;
+    getData()
+};
+
+// 跳转到文章详情页
+const router = useRouter();
+const goDetail = (id) => {
+    router.push({ path: '/detail', query: { id } })
+    console.log(id);
+    
+};
 
 </script>
 
@@ -72,6 +116,12 @@ import { randomColor } from '../utils/randomColor';
         box-sizing: border-box;
         border-radius: 16px;
         box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+        margin-bottom: 32px;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: 0px 8px 12px -1px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.1);
+        }
 
         .name {
             font-weight: 700;
