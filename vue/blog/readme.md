@@ -21,8 +21,8 @@
  定义路由，封装了路由的使用
 4. 定义 mysql 配置文件
 5. 封装数据库的连接
-
 6. 封装xxx接口要执行的数据库操作的函数
+7. koa 默认是不支持 post请求的，需要安装 koa-bodyparser（npm i @koa/bodyparser） 框架
 
 
 
@@ -42,3 +42,8 @@ http://      localhost    :3000      /article/getNewsArticleList
 1. 跨域是浏览器不接受后端的响应数据
 2. 后端
 
+
+# 登录问题
+1. 纯前端判断，判断本地存储是否有 token （这种方案是不严谨的）
+2. 后端判断，判断 token 是否有效
+3. 前后端都判断（用户没有登陆，可以少发一个请求）

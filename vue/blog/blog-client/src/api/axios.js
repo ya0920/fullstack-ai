@@ -1,9 +1,17 @@
 // 封装 axios，做一些公共的配置，以及错误处理
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
 
 axios.defaults.baseURL = 'http://localhost:3000'   // 设置默认的请求地址
 axios.defaults.headers.post['Content-Type'] = 'application/json'  // 告诉浏览器后端返回的数据是 Json 格式，这样浏览器会自动解析
+
+// 请求拦截器
+axios.interceptors.request.use(req => {
+    let token = localStorage.getItem('token') || sessionStorage.getItem('token')
+    if (token) {
+        req.headers.Authorization = token
+    }
+    return req
+})
 
 // 响应拦截器
 axios.interceptors.response.use(res => {

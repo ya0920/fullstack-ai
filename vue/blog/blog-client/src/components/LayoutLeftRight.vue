@@ -19,6 +19,7 @@
     background-color: #F9FAFB;
     display: flex;
     min-height: calc(100vh - 210px);
+    
 
     .left {
         flex: 1; // flex: 1表示占据剩余空间
@@ -28,6 +29,7 @@
 
     .right {
         flex: 0 0 390px;
+        
     }
 
 }

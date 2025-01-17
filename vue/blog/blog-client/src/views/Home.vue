@@ -63,7 +63,6 @@ const newsArticleList = ref([]);
 
 onMounted(async () => {
     const res = await getNewsArticlesList();
-    console.log(res);
     newsArticleList.value = res.data;
 });
 

@@ -13,9 +13,20 @@ export const getAllArticleCategory = async () => {
 // 获取文章列表
 export const getAllArticleList = async ({ page = 1, size = 5 }) => {
     return await axios.get('/article/getAllArticleList', { params: { page, size } }
-)}
+    )
+}
 
 // 根据id获取文章详情
 export const getArticleDetailById = async (id) => {
     return await axios.get(`/article/getArticleDetailById`, { params: { id } })
+}
+
+// 登录
+export const userLogin = async (params) => {
+    return await axios.post('/user/login', params)
+}
+
+// 点赞
+export const addLikeApi = async (params) => {
+    return await axios.get('/article/addLike', { params })
 }

@@ -89,7 +89,6 @@ const getNextPage = () => {
 const router = useRouter();
 const goDetail = (id) => {
     router.push({ path: '/detail', query: { id } })
-    console.log(id);
     
 };
 
@@ -98,6 +97,8 @@ const goDetail = (id) => {
 <style lang="less" scoped>
 .article {
     background-color: #F9FAFB;
+    height: 100vh;
+    overflow-y: auto;
 
     .title {
         font-weight: 700;

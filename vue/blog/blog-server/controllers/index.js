@@ -91,11 +91,17 @@ const getArticleDetailById = (id) => {
   return allServices.query(_sql)
 }
 
+const userLogin = (username, password) => {
+  let _sql = `SELECT * FROM users WHERE username='${username}' AND password='${password}';`
+  return allServices.query(_sql)
+}
+
 module.exports = {
   getNewsArticleList,
   getAllArticleCategory,
   getAllArticleList,
   getAllArticleCount,
   OneArticleTags,
-  getArticleDetailById
+  getArticleDetailById,
+  userLogin
 }

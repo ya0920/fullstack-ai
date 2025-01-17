@@ -10,7 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@koa/bodyparser": "^5.1.1",
     "@koa/cors": "^5.0.0",
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.15.3",
     "koa-router": "^13.0.1",
     "mysql2": "^3.12.0"

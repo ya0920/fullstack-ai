@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="right">
-                    <el-button color="#8E6FF7" class="btn">
+                    <el-button color="#8E6FF7" class="btn" @click="addLike">
                         <i class="iconfont icon-dianzan"></i>
                         点赞文章
                     </el-button>
@@ -66,16 +66,35 @@ import { useRoute } from 'vue-router'
 import { getArticleDetailById } from '@/api/index.js'
 import { formateDate } from '@/utils/formateDate.js'
 import { randomColor } from '@/utils/randomColor.js'
+import { isLogin } from '@/utils/isLogin'
+import { addLikeApi } from '@/api/index.js'
 
 const route = useRoute()
-// console.log(route.query.id);
 const articleDetail = ref({})
 
 onMounted(async () => {
     const res = await getArticleDetailById(route.query.id)
-    console.log(res);
     articleDetail.value = res.data
 })
+
+const addLike = async() => {
+    // 点赞，向后端传递文章id和用户id
+    // 登录问题
+    if (isLogin()) {
+        const res = await addLikeApi({ article_id: route.query.id })
+        console.log(res);
+    } else {
+        // 未登录
+        console.log('未登录');
+
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+            plain: true,
+        })
+    }
+}
+
 </script>
 
 <style lang="less" scoped>
