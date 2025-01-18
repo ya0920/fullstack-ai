@@ -37,21 +37,21 @@
         <div class="comment">
             <div class="title">评论</div>
             <div class="comment-input">
-                <textarea placeholder="写下你的评论..."></textarea>
+                <textarea v-model="comment" placeholder="写下你的评论..."></textarea>
             </div>
-            <el-button color="#8E6FF7" class="btn">发表评论</el-button>
+            <el-button color="#8E6FF7" class="btn" @click="publish">发表评论</el-button>
             <div class="comment-list">
                 <ul>
-                    <li class="list-item">
+                    <li class="list-item" v-for="item in commentList" :key="item.id">
                         <div class="avatar">
-                            <img src="@/assets/avatar.png" alt="">
+                            <img :src="item.user_avatar ? item.user_avatar : avatar" alt="">
                         </div>
                         <div class="comment-content">
-                            <div class="comment-user">林美玲</div>
+                            <div class="comment-user">{{ item.user_nickname }}</div>
                             <div class="comment-text">
-                                这篇文章真的很有帮助！我特别喜欢番茄工作法，已经开始尝试了，感觉工作效率提高了不少。谢谢分享！
+                                {{ item.comment_content }}
                             </div>
-                            <div class="comment-time">2023年6月16日 10:23</div>
+                            <div class="comment-time">{{ formateDate(item.comment_created_at,true) }}</div>
                         </div>
                     </li>
                 </ul>
@@ -68,21 +68,73 @@ import { formateDate } from '@/utils/formateDate.js'
 import { randomColor } from '@/utils/randomColor.js'
 import { isLogin } from '@/utils/isLogin'
 import { addLikeApi } from '@/api/index.js'
+import { addCommentApi } from '@/api/index.js'
+import { getCommentList } from '@/api/index.js'
+import avatar from '@/assets/avatar.png'
 
 const route = useRoute()
 const articleDetail = ref({})
+const comment = ref('')
+const commentList = ref([])
 
 onMounted(async () => {
     const res = await getArticleDetailById(route.query.id)
     articleDetail.value = res.data
+
+    // 阅读数+1
+
+    // 加载评论
+    const commentRes = await getCommentList(route.query.id) // 修改这里
+    // console.log(commentRes);
+    commentList.value = commentRes.data
 })
 
+// 点赞
 const addLike = async() => {
     // 点赞，向后端传递文章id和用户id
     // 登录问题
     if (isLogin()) {
         const res = await addLikeApi({ article_id: route.query.id })
+        // console.log(res);
+        ElMessage({
+            message: res.msg,
+            type: res.data === 'success' ? 'success' : 'warning',
+            plain: true,
+        })
+        
+    } else {
+        // 未登录
+        console.log('未登录');
+
+        ElMessage({
+            message: '请先登录',
+            type: 'warning',
+            plain: true,
+        })
+    }
+}
+
+// 评论
+const publish = async() => {
+
+    if (comment.value === '') {
+        ElMessage({
+            message: '评论内容不能为空',
+            type: 'warning',
+            plain: true,
+        })
+        return
+    }
+    if (isLogin()) {
+        const res = await addCommentApi({ article_id: route.query.id, comment: comment.value })
         console.log(res);
+        ElMessage({
+            message: res.msg,
+            type: res.data === 'success' ? 'success' : 'warning',
+            plain: true,
+        })
+        // 清空评论框
+        comment.value = ''
     } else {
         // 未登录
         console.log('未登录');
@@ -255,6 +307,7 @@ const addLike = async() => {
 
             .list-item {
                 display: flex;
+                margin-bottom: 24px;
 
                 .avatar {
                     flex: 0 0 40px;

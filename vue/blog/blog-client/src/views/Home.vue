@@ -29,7 +29,7 @@
                                     <div class="introduce">{{ item.article_desc }}</div>
                                     <div class="time">
                                         <span>{{ formateDate(item.create_time) }}</span>
-                                        <router-link to="/detail">阅读更多</router-link>
+                                        <router-link :to="{ path: '/detail', query: { id: item.id } }">阅读更多</router-link>
                                     </div>
                                 </div>
                             </div>

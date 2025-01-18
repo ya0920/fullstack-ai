@@ -47,3 +47,14 @@ http://      localhost    :3000      /article/getNewsArticleList
 1. 纯前端判断，判断本地存储是否有 token （这种方案是不严谨的）
 2. 后端判断，判断 token 是否有效
 3. 前后端都判断（用户没有登陆，可以少发一个请求）
+
+# get 和 post 请求
+ - get：请求的参数都是拼在url后面
+ - post，请求的参数放在请求体里面
+ - 浏览器对get请求的参数的长度有限制，而post没有
+
+# 如何防止脚本攻击
+在每次拿到数据的时候，先对数据进行处理（jsdom） npm install dompurify jsdom
+
+const { JSDOM } = require('jsdom');
+const DOMPurify = require('dompurify');

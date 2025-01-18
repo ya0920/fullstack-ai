@@ -7,9 +7,13 @@ const {
     getAllArticleList,
     getAllArticleCount,
     OneArticleTags,
-    getArticleDetailById
+    getArticleDetailById,
+    addLike,
+    addComment,
+    getCommentList
 } = require('../controllers/index.js')
-
+const { verify } = require('../utils/jwt.js')
+const { sanitizeComment } = require('../utils/xss.js')
 
 // 路由前缀
 router.prefix('/article')
@@ -121,7 +125,7 @@ router.get('/getArticleDetailById', async (ctx, next) => {
     const { id } = ctx.query;
     try {
         const res = await getArticleDetailById(id)
-        console.log('res:', res);
+        // console.log('res:', res);
         if (res.length) {//有数据
             ctx.body = {
                 code: 200,
@@ -137,6 +141,104 @@ router.get('/getArticleDetailById', async (ctx, next) => {
         }
     }
     catch (error) {
+        ctx.body = {
+            code: 500,
+            data: error,
+            msg: '服务器异常'
+        }
+    }
+})
+
+// 文章点赞（校验token）
+router.get('/addLike', verify(), async (ctx, next) => {  // verify()是一个中间件，校验完成后才会执行下面的代码
+    // 文章id，用户id
+    const { article_id } = ctx.query;
+    const user_id = ctx.user_id;
+    try {
+        const res = await addLike(article_id, user_id)
+        // console.log('res:', res);
+        if (res.affectedRows) {//有数据
+            ctx.body = {
+                code: 200,
+                data: 'success',
+                msg: '点赞成功'
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                data: null,
+                msg: '已经点赞过了'
+            }
+        }
+
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            data: error,
+            msg: '服务器异常'
+        }
+    }
+})
+
+// 文章评论
+router.post('/addComment', verify(), async (ctx, next) => {
+    const { article_id, comment } = ctx.request.body
+    const user_id = ctx.user_id
+    if (!sanitizeComment(comment)) {
+        return ctx.body = {
+            code: 400,
+            data: null,
+            msg: '评论内容不合法'
+        }
+    }
+    try {
+        const res = await addComment(article_id, sanitizeComment(comment), user_id)
+        // console.log('res:', res);
+        if (res.affectedRows) {//有数据
+            ctx.body = {
+                code: 200,
+                data: 'success',
+                msg: '评论成功'
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                data: null,
+                msg: '评论失败'
+            }
+        }
+    } catch (error) {
+        ctx.body = {
+            code: 500,
+            data: error,
+            msg: '服务器异常'
+        }
+    }
+})
+
+// 获取评论
+router.get('/getCommentList', async (ctx, next) => {
+    const { id } = ctx.query;
+    
+    try {
+        // 将article_id的评论查询出来，并关联users表，查询出评论人的昵称和头像
+        const res = await getCommentList(id);
+        
+        if (res.length) {//有数据
+            ctx.body = {
+                code: 200,
+                data: res,
+                msg: '获取评论成功'
+            }
+        } else {
+            ctx.body = {
+                code: 200,
+                data: [],
+                msg: '暂无评论'
+            }
+        }
+    } catch (error) {
+        console.error('Error:', error); // 打印错误信息
         ctx.body = {
             code: 500,
             data: error,

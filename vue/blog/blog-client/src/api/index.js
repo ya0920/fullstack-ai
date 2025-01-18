@@ -30,3 +30,13 @@ export const userLogin = async (params) => {
 export const addLikeApi = async (params) => {
     return await axios.get('/article/addLike', { params })
 }
+
+// 评论
+export const addCommentApi = async (params) => {
+    return await axios.post('/article/addComment', params)
+}
+
+// 获取评论
+export const getCommentList = async (id) => {
+    return await axios.get('/article/getCommentList', { params: { id } })
+}

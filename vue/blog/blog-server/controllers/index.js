@@ -96,6 +96,55 @@ const userLogin = (username, password) => {
   return allServices.query(_sql)
 }
 
+const addLike = async (article_id, user_id) => {
+  let _sql = `INSERT INTO article_users (user_id, article_id)
+              SELECT ${user_id},${article_id}
+              WHERE NOT EXISTS (
+              SELECT 1 FROM article_users WHERE user_id=${user_id} AND article_id=${article_id}
+);`
+  let _sql2 = `UPDATE article
+              SET like_num = like_num + (SELECT CASE WHEN ROW_COUNT() > 0 THEN 1 ELSE 0 END)
+              WHERE id=${article_id};`
+
+  // return await Promise.all([allServices.query(_sql), allServices.query(_sql2)])
+  const res1 = await allServices.query(_sql)
+  if (res1.affectedRows === 1) {
+    return allServices.query(_sql2)
+  }
+  return Promise.resolve({ msg: '已经点赞过了' })
+
+}
+
+// 添加评论
+const addComment = (article_id, comment, user_id) => {
+  let _sql = `INSERT INTO comment (create_time, article_id, comment_val, user_id) VALUES ('${new Date().getTime()}',${article_id}, '${comment}', ${user_id});`
+  return allServices.query(_sql)
+}
+
+// 获取评论
+// 获取文章评论
+const getCommentList = (id) => {
+  let _sql = `
+      SELECT 
+        c.id AS comment_id,
+        c.comment_val AS comment_content,
+        c.create_time AS comment_created_at,
+        u.id AS user_id,
+        u.username AS user_username,
+        u.nickname AS user_nickname,
+        u.avatar AS user_avatar
+    FROM 
+        comment c
+    JOIN 
+        users u ON c.user_id = u.id
+    WHERE 
+        c.article_id = ${id}
+    ORDER BY 
+        c.create_time DESC;`
+
+  return allServices.query(_sql)
+}
+
 module.exports = {
   getNewsArticleList,
   getAllArticleCategory,
@@ -103,5 +152,8 @@ module.exports = {
   getAllArticleCount,
   OneArticleTags,
   getArticleDetailById,
-  userLogin
+  userLogin,
+  addLike,
+  addComment,
+  getCommentList
 }

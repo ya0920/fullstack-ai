@@ -14,9 +14,14 @@
         <div class="control">
             <el-input size="large" :prefix-icon="Search" v-model="inputSearch" style="width: 240px"
                 placeholder="搜索文章..." />
-            <div class="user">
+            <div class="user" v-if="!isLogin()">
                 <router-link class="btn active" to="/login">登录</router-link>
                 <router-link class="btn" to="/register">注册</router-link>
+            </div>
+            <div class="user" v-else>
+                <div class="avatar">
+                    <img :src="userInfo.avatar ? userInfo.avatar : avatar" alt="">
+                </div>
             </div>
         </div>
 
@@ -27,8 +32,11 @@
 <script setup>
 import { Search } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { isLogin } from '@/utils/isLogin.js'
+import avatar from '@/assets/avatar.png'
 
 const inputSearch = ref('')
+const userInfo = JSON.parse(localStorage.getItem('userInfo'))
 </script>
 
 <style lang="less" scoped>
@@ -101,6 +109,18 @@ const inputSearch = ref('')
                 &.active {
                     background: #8E6FF7;
                     color: #fff;
+                }
+            }
+
+            .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                overflow: hidden;
+                margin-left: 16px;
+
+                img {
+                    width: 100%;
                 }
             }
         }
