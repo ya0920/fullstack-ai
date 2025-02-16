@@ -27,8 +27,18 @@
 
 # deepseek 全栈开发
  前端 + 后端 + LLM == AI fullstuck
- LLM 本地部署
+ LLM 本地部署 = 离线
 
 # ollama
  训练好的 LLM，是要有自己的运行环境的
- nlp + 机器学习 + tansformers机制 => LLM
+ nlp + 机器学习(全球的知识点) + tansformers机制 => LLM
+
+ const add = (x + y) => x + y
+ LLM(巨大的参数)
+
+# chatBot
+ vue + koa + deepseek()
+ - 本地运行的 deepseek，是可以被 ajax 通信的
+ - 端口 11434
+ - /api/chat
+ - post
