@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="handle()">请求</button>
+
+<script>
+    function handle() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('get','http://localhost:3000', true);
+        xhr.send();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) { // 0 init 1 open 2 send 3 loading 4 done， 200 ok
+                console.log(xhr.responseText);
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
