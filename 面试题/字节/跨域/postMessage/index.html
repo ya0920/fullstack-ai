@@ -16,7 +16,7 @@
         let obj = { name: '阿杰', age: 18 }
 
         document.getElementById('frame').onload = function () {
-            this.contentWindow.postMessage(obj, 'http://127.0.0.1:8080') // 向iframe发送消息
+            this.contentWindow.postMessage(obj, 'http://127.0.0.1:5500') // 向iframe发送消息
 
             window.onmessage = function (e) { // 接收iframe发送的消息
                 console.log(e.data);

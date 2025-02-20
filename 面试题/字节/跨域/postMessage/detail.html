@@ -6,7 +6,18 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>详情页</h3>
+    <h3>详情页 -- <span id="title"></span></h3>
+
+    <script>
+        let title = document.getElementById('title');
+
+        window.onmessage = function (e) { // 接收父页面发送的消息
+            console.log(e.data);
+            title.innerHTML = e.data.age;
+
+            e.source.postMessage('我是详情页', e.origin) // 向父页面发送消息
+        }
+    </script>
 
     
 </body>
