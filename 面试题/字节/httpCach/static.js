@@ -4,7 +4,7 @@ const fs = require('fs');
 const mime = require('mime');
 
 const server = http.createServer((req, res) => {
-    let filePath = path.resolve(__dirname, path.join('www', req.url))
+    let filePath = path.resolve(__dirname, path.join('www', req.url)) // 获取文件路径
 
     if (fs.existsSync(filePath)) { // 判断文件是否存在
         const stats = fs.statSync(filePath); // 获取文件信息
@@ -25,6 +25,7 @@ const server = http.createServer((req, res) => {
             // // } else {
             // //   res.writeHead(200, {'content-type': 'text/html; charset=utf-8'})
             // // }
+            
             // res.writeHead(200, {'content-type': mime.getType(ext)})
             // return res.end(content);
 
