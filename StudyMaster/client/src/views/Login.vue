@@ -1,0 +1,180 @@
+<template>
+    <div class="login-container">
+        <div class="logo-head">
+            <img src="@/assets/logo.png" alt="">
+            <p>AI助力高效学习</p>
+        </div>
+        <div class="input">
+            <input type="text" v-model="phone" placeholder="请输入手机号" />
+            <input type="password" v-model="password" placeholder="请输入密码" />
+        </div>
+        <div class="forgot-register">
+            <span @click="handleForgotPassword">忘记密码？</span>
+            <span @click="handleRegister">注册账号</span>
+        </div>
+        <button class="login-button" @click="handleLogin">登录</button>
+        <div class="login-footer">
+            <div class="third-party-login">
+                <span class="iconfont icon-weixin" @click="handleWeChatLogin"></span>
+                <span class="iconfont icon-QQ" @click="handleQQLogin"></span>
+            </div>
+            <p class="agreement">
+                登录即表示同意
+                <a href="#">《用户协议》</a> 和 <a href="#">《隐私政策》</a>
+            </p>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import router from '@/router';
+
+// 定义响应式数据
+const phone = ref('');
+const password = ref('');
+
+// 定义方法
+const handleLogin = () => {
+    console.log('手机号:', phone.value);
+    console.log('密码:', password.value);
+};
+
+const handleForgotPassword = () => {
+    console.log('点击了忘记密码');
+};
+
+const handleRegister = () => {
+    console.log('点击了注册账号');
+    router.push('/register');
+};
+
+const handleWeChatLogin = () => {
+    console.log('点击了微信登录');
+};
+
+const handleQQLogin = () => {
+    console.log('点击了QQ登录');
+};
+</script>
+
+<style lang="less" scoped>
+.login-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    max-width: calc(300px + 24px * 2);
+    margin: 0 auto;
+    padding: 24px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.logo-head {
+    text-align: center;
+    margin-bottom: 20px;
+
+    img {
+        width: 80px;
+        height: 80px;
+    }
+
+    p {
+        font-size: 14px;
+        color: #333;
+        margin-top: 5px;
+    }
+}
+
+.input {
+    input {
+        width: 100%;
+        padding: 12px 24px;
+        margin-bottom: 15px;
+        background-color: #F9FAFB;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        line-height: normal;
+        box-sizing: border-box;
+        outline: none;
+
+        &::placeholder {
+            color: #9CA3AF;
+        }
+    }
+}
+
+.forgot-register {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    cursor: pointer;
+
+    span:nth-child(1) {
+        color: #6B7280;
+    }
+
+    span:nth-child(2) {
+        color: #2196F3;
+    }
+}
+
+.login-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.login-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+}
+
+.third-party-login {
+    display: flex;
+    margin-bottom: 15px;
+
+    .iconfont {
+        display: inline-block;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+        border-radius: 50%;
+        font-size: 30px;
+        margin: 0 10px;
+        text-align: center;
+        color: white;
+        cursor: pointer;
+    }
+
+    .icon-weixin {
+        background-color: #07C160;
+    }
+
+    .icon-QQ {
+        background-color: #12B7F5;
+    }
+}
+
+.agreement {
+    text-align: center;
+    font-size: 12px;
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+    }
+}
+</style>

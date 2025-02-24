@@ -38,3 +38,14 @@ Object.prototype.toString(x)
  1. 先调用toString()  如果返回原始类型  则结束
  2. 调用valueOf()  如果返回原始类型  则结束
  3. 抛出错误
+
+# this
+ - 默认绑定：函数被独立调用 this 指向 window 
+ - 隐式绑定：函数被某个对象调用，this 指向该对象
+ - 隐式丢失：函数被一连串的对象调用，this 指向最近调用的对象
+ - 显式绑定：call apply bind
+   - 区别
+      1. call bind 接收参数是零散的
+      2. apply 接收参数是数组
+      3. bind 返回的是一个新的函数，新函数也可以接收参数
+         1. 当新的函数被调用时，返回的是 调用 bind 的那个函数的实例对象
