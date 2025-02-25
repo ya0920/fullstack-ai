@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4801966_avwyxpuu1v6.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4779937_xqlb24d1fg.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4762438_3k2ckulh5sx.css">
+  <style>
+    div > span > a{
+      color: red;
+    }
+
+    .color {
+      color: red;
+    }
+  </style>
+   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+  <h1>hello world</h1>
+  <img src="https://t7.baidu.com/it/u=1732966997,2981886582&fm=193&f=GIF" alt="">
+  <img src="https://t7.baidu.com/it/u=1785207335,3397162108&fm=193&f=GIF" alt="">
+  <img src="https://t7.baidu.com/it/u=245883932,1750720125&fm=193&f=GIF" alt="">
+  <img src="https://t7.baidu.com/it/u=3423293041,3900166648&fm=193&f=GIF" alt="">
+  <img src="https://t7.baidu.com/it/u=3241434606,2550606435&fm=193&f=GIF" alt="">
+  <img src="https://t7.baidu.com/it/u=1417505637,1247476664&fm=193&f=GIF" alt="">
+
+
+ 
+  <script>
+    // 白屏时间 = 从 dns 解析 到 第一次重绘出内容
+
+    // 监听首次重绘事件
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries() // 所有的事件开始执行
+      for (let entry of entries) {
+        if (entry.name === 'first-contentful-paint') {  // 首次重绘
+          console.log('白屏时间：', entry.startTime, 'ms')
+        }
+      }
+    })
+
+    // 监听 first-contentful-paint 事件
+    observer.observe({type: 'paint', buffered: true })
+  </script>
+</body>
+
+</html>

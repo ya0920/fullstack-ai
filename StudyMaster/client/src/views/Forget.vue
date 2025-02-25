@@ -1,32 +1,31 @@
 <template>
-    <div class="login-container">
+    <div class="forgot-password-container">
         <div class="logo-head">
             <img src="@/assets/logo.png" alt="">
             <p>AI助力高效学习</p>
         </div>
-        <!-- 添加用户类型选择 -->
         <div class="type-select">
-            <el-radio-group v-model="userType" size="large" round>
-                <el-radio-button label="student">学生</el-radio-button>
-                <el-radio-button label="parent">家长</el-radio-button>
-            </el-radio-group>
+            <h3>欢迎找回密码</h3>
         </div>
         <div class="input">
             <input type="text" v-model="phone" placeholder="请输入手机号" />
-            <input type="password" v-model="password" placeholder="请输入密码" />
+            <div class="verify-code">
+                <input type="text" v-model="verifyCode" placeholder="请输入验证码" />
+                <button class="get-code-btn" @click="getVerifyCode">获取验证码</button>
+            </div>
+            <input type="password" v-model="newPassword" placeholder="请设置新密码" />
+            <input type="password" v-model="confirmNewPassword" placeholder="请确认新密码" />
         </div>
-        <div class="forgot-register">
-            <span @click="handleForgotPassword">忘记密码？</span>
-            <span @click="handleRegister">注册账号</span>
-        </div>
-        <button class="login-button" @click="handleLogin">登录</button>
+        <button class="reset-button" @click="handleResetPassword">修改</button>
+        <!-- 返回登录放在修改按钮下面 -->
+        <span class="back-to-login" @click="handleBackToLogin">返回登录</span>
         <div class="login-footer">
             <div class="third-party-login">
                 <span class="iconfont icon-weixin" @click="handleWeChatLogin"></span>
                 <span class="iconfont icon-QQ" @click="handleQQLogin"></span>
             </div>
             <p class="agreement">
-                登录即表示同意
+                操作即表示同意
                 <a href="#">《用户协议》</a> 和 <a href="#">《隐私政策》</a>
             </p>
         </div>
@@ -35,30 +34,37 @@
 
 <script setup>
 import { ref } from 'vue';
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
-// 定义响应式数据，默认用户类型为学生
-const userType = ref('student');
+// 定义响应式数据
 const phone = ref('');
-const password = ref('');
+const verifyCode = ref('');
+const newPassword = ref('');
+const confirmNewPassword = ref('');
 
-// 定义方法
-const handleLogin = () => {
-    console.log('用户类型:', userType.value);
-    console.log('手机号:', phone.value);
-    console.log('密码:', password.value);
+const router = useRouter();
+
+// 定义获取验证码的方法
+const getVerifyCode = () => {
+    console.log('点击获取验证码，手机号:', phone.value);
+    // 这里可以添加实际调用获取验证码 API 的逻辑
 };
 
-const handleForgotPassword = () => {
-    console.log('点击了忘记密码');
-    router.push('/forget');
+// 定义重置密码方法
+const handleResetPassword = () => {
+    if (newPassword.value !== confirmNewPassword.value) {
+        console.log('两次输入的新密码不一致');
+        return;
+    }
+    console.log('重置密码信息：', {
+        phone: phone.value,
+        verifyCode: verifyCode.value,
+        newPassword: newPassword.value,
+    });
+    // 这里可以添加实际调用重置密码 API 的逻辑
 };
 
-const handleRegister = () => {
-    console.log('点击了注册账号');
-    router.push('/register');
-};
-
+// 第三方登录方法
 const handleWeChatLogin = () => {
     console.log('点击了微信登录');
 };
@@ -66,10 +72,15 @@ const handleWeChatLogin = () => {
 const handleQQLogin = () => {
     console.log('点击了QQ登录');
 };
+
+// 定义返回登录页的方法
+const handleBackToLogin = () => {
+    router.push('/login');
+};
 </script>
 
 <style lang="less" scoped>
-.login-container {
+.forgot-password-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -98,36 +109,19 @@ const handleQQLogin = () => {
 }
 
 .type-select {
-    display: flex;
-    justify-content: center;
     margin-bottom: 20px;
 
-    .el-radio-group {
-        display: flex;
-        justify-content: center;
-    }
-
-    .el-radio-button__original:checked+.el-radio-button__inner {
-        background-color: #2196F3;
-        border-color: #2196F3;
-    }
-
-    :deep(.el-radio-button:first-child .el-radio-button__inner) {
-        border-left: var(--el-border);
-        border-radius: 20px 0 0 20px;
-        box-shadow: none !important;
-    }
-
-    :deep(.el-radio-button:last-child .el-radio-button__inner) {
-        border-radius: 0 20px 20px 0;
-        box-shadow: none !important;
+    h3 {
+        text-align: center;
+        font-size: 18px;
+        color: #333;
     }
 }
 
 .input {
     input {
         width: 100%;
-        padding: 12px 24px;
+        padding: 15px 24px;
         margin-bottom: 15px;
         background-color: #F9FAFB;
         border: none;
@@ -143,24 +137,27 @@ const handleQQLogin = () => {
     }
 }
 
-.forgot-register {
+.verify-code {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    cursor: pointer;
 
-    span:nth-child(1) {
-        color: #6B7280;
+    input {
+        flex: 1;
     }
 
-    span:nth-child(2) {
-        color: #2196F3;
+    .get-code-btn {
+        height: 44px;
+        padding: 10px 10px;
+        font-size: 14px;
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 10px;
     }
 }
 
-.login-button {
+.reset-button {
     width: 100%;
     padding: 12px;
     background-color: #2196F3;
@@ -169,7 +166,15 @@ const handleQQLogin = () => {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.back-to-login {
+    font-size: 14px;
+    text-align: center;
+    color: #2196F3;
+    cursor: pointer;
 }
 
 .login-footer {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul>
+    <li><a href="/home">首页</a></li>
+    <li><a href="/about">关于</a></li>
+  </ul>
+
+  <div id="app"></div>
+
+  <script>
+
+    const routes = [
+      {
+        path: '/home',
+        component: () => {
+          return '<h2>首页页面</h2>'
+        }
+      },
+      {
+        path: '/about',
+        component: () => {
+          return '<h3>about页面</h3>'
+        }
+      }
+    ]
+  
+    window.addEventListener('popstate', function() { // 监听浏览器前进后退按钮
+      routerView()
+    })
+
+
+
+    let linkList = document.querySelectorAll('a')
+    linkList.forEach(link => {
+      link.addEventListener('click', function(e) {
+        // 让a标签不跳转
+        e.preventDefault()  // 阻止默认行为
+        // 让 url 发生变化
+        history.pushState(null, '', this.getAttribute('href'))
+        routerView()
+      })
+    })
+
+
+    const app = document.getElementById('app')
+    function routerView() {
+      const index = routes.findIndex(item => {
+        return item.path === location.pathname
+      })
+      app.innerHTML = routes[index].component()
+    }
+    
+  </script>
+</body>
+</html>

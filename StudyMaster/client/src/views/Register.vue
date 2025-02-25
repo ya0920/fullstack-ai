@@ -1,22 +1,14 @@
 <template>
     <div class="login-container">
-
-
-        <!-- <div>
-            <el-radio-group v-model="radio1" size="large">
-                <el-radio-button label="New York" value="New York" />
-            </el-radio-group>
-        </div> -->
-
-
         <div class="logo-head">
             <img src="@/assets/logo.png" alt="">
             <p>AI助力高效学习</p>
         </div>
         <div class="type-select">
-            <button class="type-btn" :class="{ active: userType === 'student' }"
-                @click="userType = 'student'">学生</button>
-            <button class="type-btn" :class="{ active: userType === 'parent' }" @click="userType = 'parent'">家长</button>
+            <el-radio-group v-model="userType" size="large" round>
+                <el-radio-button label="student">学生</el-radio-button>
+                <el-radio-button label="parent">家长</el-radio-button>
+            </el-radio-group>
         </div>
         <div class="input">
             <input type="text" v-model="phone" placeholder="请输入手机号" />
@@ -28,6 +20,8 @@
             </div>
         </div>
         <button class="login-button" @click="handleRegister">注册</button>
+        <!-- 添加返回登录的链接 -->
+        <span class="back-to-login" @click="handleBackToLogin">返回登录</span>
         <div class="login-footer">
             <div class="third-party-login">
                 <span class="iconfont icon-weixin" @click="handleWeChatLogin"></span>
@@ -43,16 +37,16 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // 引入 useRouter 函数
 
-// 默认学生模式
-const radio1 = ref('New York')
-
-// 定义响应式数据
-const userType = ref('');
+// 定义响应式数据，默认用户类型为学生
+const userType = ref('student');
 const phone = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const verifyCode = ref('');
+
+const router = useRouter(); // 获取路由实例
 
 // 定义获取验证码的方法
 const getVerifyCode = () => {
@@ -73,6 +67,11 @@ const handleRegister = () => {
         verifyCode: verifyCode.value,
     });
     // 这里可以添加实际调用注册 API 的逻辑
+};
+
+// 定义返回登录页的方法
+const handleBackToLogin = () => {
+    router.push('/login'); // 假设登录页的路由路径是 /login
 };
 
 // 定义第三方登录方法
@@ -119,27 +118,23 @@ const handleQQLogin = () => {
     justify-content: center;
     margin-bottom: 20px;
 
-    .type-btn {
-        padding: 8px 16px;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        margin: 0 10px;
-        cursor: pointer;
-        background-color: white;
-        color: #333;
+    .el-radio-group {
+        display: flex;
+        justify-content: center;
+    }
 
-        &.active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
+    :deep(.el-radio-button:first-child .el-radio-button__inner) {
+        border-radius: 15px 0 0 15px;
+    }
+
+    :deep(.el-radio-button:last-child .el-radio-button__inner) {
+        border-radius: 0 15px 15px 0;
     }
 }
 
 .input {
     input {
         width: 100%;
-        // 调整上下内边距，结合 font-size 使输入框高度为 44px
         padding: 15px 24px;
         margin-bottom: 15px;
         background-color: #F9FAFB;
@@ -164,11 +159,10 @@ const handleQQLogin = () => {
     }
 
     .get-code-btn {
-        // 让按钮高度和输入框一致
         height: 44px;
         padding: 10px 10px;
         font-size: 14px;
-        background-color: #007bff;
+        background-color: #2196F3;
         color: white;
         border: none;
         border-radius: 5px;
@@ -180,15 +174,23 @@ const handleQQLogin = () => {
 .login-button {
     width: 100%;
     padding: 12px;
-    background-color: #007bff;
+    background-color: #2196F3;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    // 设置顶部外边距为 20px
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+/* 添加返回登录链接的样式 */
+.back-to-login {
+    font-size: 14px;
+    text-align: center;
+    color: #2196F3;
+    cursor: pointer;
+    // margin-bottom: 20px;
 }
 
 .login-footer {
