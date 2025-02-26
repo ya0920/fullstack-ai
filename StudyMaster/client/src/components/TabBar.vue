@@ -1,4 +1,3 @@
-<!-- src/components/TabBar.vue -->
 <template>
     <div class="tab-bar">
         <router-link v-for="item in tabItems" :key="item.path" :to="item.path" class="tab-item"

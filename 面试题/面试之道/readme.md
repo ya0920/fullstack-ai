@@ -64,13 +64,45 @@ Object.prototype.toString(x)
 
 # 拷贝
   - 浅拷贝：拷贝得到的新对象会受原对象的影响 
-    - 1. Object.assign()
+    - 1. Object.assign()：把后面的全部拼到第一个对象
     - 2. Object.create()
     - 3. 展开运算符 ...
     - 4. 数组的 slice()  concat()
 
   - 深拷贝：拷贝得到的新对象不会受原对象的影响
-   1. JSON.parse(JSON.stringify(obj))
+   1. JSON.parse(JSON.stringify(obj)) undefined,symbol,bigint没办法拷贝
    2. 递归拷贝
-   3. structuredClone()
-   4. new MessageChannel()
+   3. structuredClone() 兼容性不好
+   4. new MessageChannel() 信息传递，一个隧道，单开一个进程
+
+# 异步
+  2. promise es6增加的
+
+  3. generator
+    - 函数前面有一个 *，函数内部使用 yield 关键字，函数会返回一个迭代器对象，每次调用一个 next()方法会返回一个迭代器对象，对象中有 value 和 done 属性，value是 yield 后面的值，done 是一个布尔值，表示迭代器是否迭代完毕。
+
+  4. async await
+
+   - then 原理：
+    1. 接收两个参数，第一个是成功的回调，第二个是失败的回调
+    2. 返回一个新的 promise
+    3. 当 then 执行到的时刻，then前面的 promise 状态已经变更为 fullfilled 或 rejected，then中的回调函数就不会执行
+    4. 当 then 执行到的时刻，then前面的 promise 状态为 pending，then中的回调函数先被存放，等待 promise 状态变更为 fullfilled 或者 rejected 时再由 resolve 或者 reject 函数执行
+
+
+# Event Loop
+ - 线程之间可以同时工作，除了 js线程 和 浏览器渲染线程 。因为 js 可以修改 dom，可能会出现渲染冲突（js的执行会阻塞html）
+
+
+ - 同步队列：
+ - 异步队列：
+   - 宏任务队列：同步代码的第一次执行也叫宏任务
+        <script> 、 setTimeout 、 setInterval 、 setImmediate（后面的代码执行完毕在执行） 、 requestAnimationFrame（按照刷新率的计时器）、I/O 、 UI rendering（页面渲染）
+   - 微任务队列：
+        promise.then 、 MutationObserver（监听dom结构） 、 node环境独有：process 、 nextTick
+
+  - 顺序：同步代码（也叫宏任务） => 微任务队列中的任务 => 有必要的话，执行渲染 => 宏任务
+
+  - await（浏览器把await的耗时提前了） 后面接着的的代码当作是同步代码，会把后面的全部代码挤入微任务队列
+  - await后面接的的 promise 对象要是状态为 pending，会死锁，这时候 await 把主进程让出来，去执行其他可行的任务
+
