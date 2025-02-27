@@ -30,15 +30,15 @@
 
             <!-- 章节分布 -->
             <section class="chart-section">
-                <h3 class="section-title">各章节错误分布</h3>
-                <HeatmapChart :data="chapterData" />
+                <h3 class="section-title">各学科错误分布</h3>
+                <VerticalBarChart :data="chapterData" />
                 <!-- 操作按钮 -->
                 <div class="action-buttons">
-                    <button class="btn">
+                    <button class="btn" @click="handleCapture">
                         <i class="iconfont icon-paizhao"></i>
                         <p>抽题录入</p>
                     </button>
-                    <button class="btn">
+                    <button class="btn" @click="handleGenerate">
                         <i class="iconfont icon-shijuanguanli"></i>
                         <pp>生成试卷</pp>
                     </button>
@@ -49,7 +49,8 @@
             <section class="recent-errors">
                 <h3 class="section-title">最近错题</h3>
                 <div class="error-list">
-                    <div v-for="(error, index) in recentErrors" :key="index" class="error-item">
+                    <div v-for="(error, index) in recentErrors" :key="index" class="error-item"
+                        @click="handleErrorClick(error)">
                         <div class="subject">{{ error.subject }}</div>
                         <div class="topic">{{ error.topic }}</div>
                         <div class="time">{{ error.time }}</div>
@@ -65,8 +66,11 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router' // 添加路由
 import TabBar from '@/components/TabBar.vue'
-import HeatmapChart from '@/components/HeatmapChart.vue'
+import VerticalBarChart from '@/components/VerticalBarChart.vue'
+
+const router = useRouter()
 
 // 章节数据
 const chapterData = ref([
@@ -86,6 +90,30 @@ const recentErrors = ref([
     { subject: '物理', topic: '牛顿定律', time: '2天前' },
     { subject: '化学', topic: '化学平衡', time: '1天前' }
 ])
+
+// 处理按钮点击
+const handleCapture = () => {
+    // 跳转到抽题录入页面
+    router.push('/capture')
+}
+
+const handleGenerate = () => {
+    // 跳转到生成试卷页面
+    router.push('/generate-paper')
+}
+
+// 处理错题点击
+const handleErrorClick = (error) => {
+    // 跳转到错题详情页
+    router.push({
+        path: '/error-detail',
+        query: {
+            subject: error.subject,
+            topic: error.topic
+        }
+    })
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -110,6 +138,7 @@ const recentErrors = ref([
 
     .title {
         font-size: 18px;
+        font-weight: 600;
         color: @text-color;
     }
 }
@@ -164,7 +193,6 @@ const recentErrors = ref([
         font-size: 16px;
         color: @text-color;
         text-align: center;
-        margin-bottom: 16px;
     }
 
     .bar-chart {
@@ -242,12 +270,11 @@ const recentErrors = ref([
 .action-buttons {
     display: flex;
     gap: 12px;
-    margin-top: 24px;
-    padding: 0 16px;
+    // padding: 0 16px;
 
     .btn {
         flex: 1;
-        padding: 16px 0;
+        padding: 24px 0;
         border-radius: 8px;
         border: none;
         display: flex;
@@ -257,7 +284,7 @@ const recentErrors = ref([
         background-color: #F9FAFB;
 
         .iconfont {
-            font-size: 18px;
+            font-size: 24px;
             color: @primary-color;
         }
 

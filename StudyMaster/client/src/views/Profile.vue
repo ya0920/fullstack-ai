@@ -131,12 +131,13 @@ const logout = () => {
 
 .profile-header {
     background: @primary-color;
-    padding: 16px;
+    padding: 16px 0;
 
     .header-title {
         color: white;
-        margin: 0 0 0 16px;
+        margin: 12px 0 12px 30px;
         font-size: 18px;
+        font-weight: 600;
     }
 }
 

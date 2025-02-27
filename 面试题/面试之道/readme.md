@@ -105,4 +105,3 @@ Object.prototype.toString(x)
 
   - await（浏览器把await的耗时提前了） 后面接着的的代码当作是同步代码，会把后面的全部代码挤入微任务队列
   - await后面接的的 promise 对象要是状态为 pending，会死锁，这时候 await 把主进程让出来，去执行其他可行的任务
-
