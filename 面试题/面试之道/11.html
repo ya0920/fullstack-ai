@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="btn">age++</button>
+
+  <script>
+    let obj = {
+      name: '涛哥',
+      age: 15,
+      like: 'coding'
+    }
+    function viewUpdate() {
+      console.log('视图更新');
+    }
+
+    // 代理机制
+    let proxyObj = new Proxy(obj, {
+        get: function(target, key, receiver) {  // 代理对象被访问时触发
+          // console.log(target, key, receiver);
+          return Reflect.get(target, key, receiver)
+        },
+        set: function(target, key, value, receiver) {  // 代理对象被设置时触发
+          if (value !== target[key]) {
+            // target[key] = value
+            Reflect.set(target, key, value, receiver)
+            viewUpdate()
+          }
+        }
+    })
+
+    document.getElementById('btn').onclick = function() {
+      proxyObj.age++
+      // console.log(proxyObj.age);
+      
+    }
+  </script>
+</body>
+</html>

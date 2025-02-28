@@ -65,30 +65,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router' // 添加路由
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import TabBar from '@/components/TabBar.vue'
 import VerticalBarChart from '@/components/VerticalBarChart.vue'
 import { useProgressStore } from '@/stores/progress'
-import { computed } from 'vue'
-
-// 修改统计卡片部分
-const progressStore = useProgressStore()
-
-const reviewProgress = computed(() => {
-  const total = progressStore.tasks.length
-  const completed = progressStore.tasks.filter(t => t.completed).length
-  return total === 0 ? 0 : Math.round((completed / total) * 100)
-})
-
-const masteryRate = computed(() => {
-  // 根据实际业务逻辑计算掌握率
-  progressStore.masteryRate
-})
 
 const router = useRouter()
+const progressStore = useProgressStore()
 
-// 章节数据
+// 首页统计数据显示当日进度
+const todayProgress = computed(() => {
+    const today = new Date().toISOString().split('T')[0]
+    const tasks = progressStore.dailyTasks[today] || []
+    const total = tasks.length
+    const completed = tasks.filter(t => t.completed).length
+    return total ? Math.round((completed / total) * 100) : 0
+})
+
+// 全局复习进度
+const reviewProgress = computed(() => {
+    const allTasks = Object.values(progressStore.dailyTasks).flat()
+    const total = allTasks.length
+    const completed = allTasks.filter(t => t.completed).length
+    return total ? Math.round((completed / total) * 100) : 0
+})
+
+// 章节掌握率
 const chapterData = ref([
     { value: 85, name: '数学' },
     { value: 65, name: '语文' },
@@ -100,12 +103,30 @@ const chapterData = ref([
     { value: 10, name: '地理' }
 ])
 
-// 最近错题
-const recentErrors = ref([
-    { subject: '数学', topic: '二次函数', time: '3天前' },
-    { subject: '物理', topic: '牛顿定律', time: '2天前' },
-    { subject: '化学', topic: '化学平衡', time: '1天前' }
-])
+// 最近错题（实时更新）
+const recentErrors = computed(() => {
+    const allTasks = Object.values(progressStore.dailyTasks).flat()
+    return allTasks
+        .filter(t => !t.completed)
+        .slice(-3)
+        .map(t => ({
+            subject: t.subject,
+            topic: t.knowledgePoint,
+            time: formatTime(t.date)
+        }))
+})
+
+// 辅助方法
+const formatTime = (dateString) => {
+    const diffDays = Math.floor((new Date() - new Date(dateString)) / (1000 * 60 * 60 * 24))
+    return `${diffDays}天前`
+}
+
+// 掌握率
+const masteryRate = computed(() => {
+    // 根据实际业务逻辑计算掌握率
+    return progressStore.masteryRate
+})
 
 // 处理按钮点击
 const handleCapture = () => {
@@ -129,7 +150,6 @@ const handleErrorClick = (error) => {
         }
     })
 }
-
 </script>
 
 <style lang="less" scoped>

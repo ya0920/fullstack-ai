@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    li{
+      list-style: none;
+    }
+    .parent {
+      width: 300px;
+      height: 100px;
+      border: 1px solid #000;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .child{
+      /* flex: 0 0 150px; */
+      /* width: 150px; */
+      /* flex-grow: 0; */
+      /* flex-shrink: 1; */
+      flex-basis: 150px;
+    }
+    .child:nth-child(2){
+      order: -1;
+    }
+  </style>
+</head>
+<body>
+  <ul class="parent">
+    <li class="child" style="background-color: red;"></li>
+    <li class="child" style="background-color: rgb(0, 255, 0);"></li>
+    <li class="child" style="background-color: rgb(217, 48, 180);"></li>
+  </ul>
+</body>
+</html>

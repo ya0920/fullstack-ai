@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <ul id="list"></ul>
+
+  <script>
+    let ul = document.getElementById('list');
+    // ul.style.display = 'none'
+    // let frg = document.createDocumentFragment();  // 文档碎片
+    let cloneUl = ul.cloneNode(true);
+    
+
+    let count = 100
+
+    for (let i = 0; i < count; i++) {
+      let li = document.createElement('li');
+      li.innerHTML = i;
+      cloneUl.appendChild(li);
+    }
+  
+    // ul.appendChild(frg);
+    ul.parentNode.replaceChild(cloneUl, ul);
+  </script>
+</body>
+</html>

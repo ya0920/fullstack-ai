@@ -105,3 +105,54 @@ Object.prototype.toString(x)
 
   - await（浏览器把await的耗时提前了） 后面接着的的代码当作是同步代码，会把后面的全部代码挤入微任务队列
   - await后面接的的 promise 对象要是状态为 pending，会死锁，这时候 await 把主进程让出来，去执行其他可行的任务
+
+# 浏览器基础考点
+  - 事件机制
+    1. 事件从 window 上往目标处传播   （捕获阶段）
+    2. 事件传播到目标处后，会触发事件处理函数
+    3. 事件从目标处往 window 上传播  （冒泡阶段）
+
+  - 事件委托
+
+  - 跨域
+
+  - 存储
+    https://www.baidu.com/    
+    https://www.abc.baidu.com/
+  
+  - 缓存
+    1. 强缓存
+      - Expires  绝对时间
+      - Cache-Control  相对时间
+    2. 协商缓存
+      - Last-Modified  上次修改时间
+      - If-Modified-Since  上次修改时间
+      - ETag  资源的唯一标识
+
+  - 渲染过程
+   1. 解析html得到dom树
+   2. 解析css得到css规则树
+   3. 将dom树和css规则树合并成render树（只包含可见的节点）
+   4. 根据render树计算每个节点的位置  （回流）
+   5. 将每个节点绘制到屏幕上  （重绘）
+
+    - 回流: 页面上有元素的几何属性发生变化
+
+    - 重绘：页面上有元素的外观属性发生变化
+      
+    
+    - 浏览器的优化
+     浏览器维护了一个队列，当页面上出现需要回流的操作时，会将该操作放入队列中，当队列中的操作达到一定数量时，会将队列中的操作一次性执行，这就是浏览器的优化。
+
+     offsetTop, offsetLeft, offsetWidth, offsetHeight, clientWidth, clientHeight, scrollTop, scrollLeft, scrollWidth, scrollHeight, getComputedStyle() 这些属性会强制刷新队列，导致回流
+    
+
+    - 减少回流的操作
+      1. 不要一条一条地修改 DOM 的样式。与其这样，还不如预先定义好 css 的 class，然后修改 DOM 的 className
+      2. 将需要大量回流的元素，脱离文档流，回流完毕后再重新插入文档
+      3. 使用文档碎片
+      4. 使用dom 克隆
+
+
+# 设计模式
+  - 发布订阅模式
