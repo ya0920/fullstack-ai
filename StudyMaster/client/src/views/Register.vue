@@ -20,7 +20,7 @@
             </div>
         </div>
         <button class="login-button" @click="handleRegister">注册</button>
-        <!-- 添加返回登录的链接 -->
+
         <span class="back-to-login" @click="handleBackToLogin">返回登录</span>
         <div class="login-footer">
             <div class="third-party-login">
@@ -93,7 +93,6 @@ const handleQQLogin = () => {
     max-width: calc(300px + 24px * 2);
     margin: 0 auto;
     padding: 24px;
-    font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 
@@ -184,7 +183,6 @@ const handleQQLogin = () => {
     margin-bottom: 10px;
 }
 
-/* 添加返回登录链接的样式 */
 .back-to-login {
     font-size: 14px;
     text-align: center;

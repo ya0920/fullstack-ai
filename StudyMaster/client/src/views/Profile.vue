@@ -87,7 +87,6 @@
             </div>
         </section>
 
-        <!-- 底部导航 -->
         <TabBar />
     </div>
 </template>

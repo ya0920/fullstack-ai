@@ -23,6 +23,20 @@ import { ElCalendar } from 'element-plus';
 
 import { defineEmits } from 'vue'
 
+// 添加props接收完成日期
+const props = defineProps({
+  completedDates: {
+    type: Array,
+    default: () => []
+  }
+})
+
+// 修改判断方法
+const isPlanCompleted = (date) => {
+  const formattedDate = formatDate(date)
+  return props.completedDates.includes(formattedDate)
+}
+
 const emit = defineEmits(['date-click']) // 声明自定义事件
 
 // 处理日期点击
@@ -41,11 +55,7 @@ const formatDate = (date, isHeader = false) => {
     return parts[2];
 };
 
-// 判断当天计划是否完成（暂时为空方法）
-const isPlanCompleted = (date) => {
-    // 后续补充根据实际数据判断计划是否完成的逻辑
-    return false;
-};
+
 
 // 判断当天是否有计划（暂时为空方法）
 const isTherePlan = (date) => {
@@ -72,7 +82,6 @@ const nextMonth = (picker) => {
 <style scoped>
 :deep(.el-calendar-table) {
     --el-calendar-cell-width: auto !important;
-    /* 覆盖默认变量 */
 }
 
 :deep(.el-calendar-table .el-calendar-day) {
@@ -86,7 +95,6 @@ const nextMonth = (picker) => {
     }
 }
 
-/* Calendar.vue 添加样式 */
 :deep(.el-calendar-day) {
     transition: all 0.3s;
     cursor: pointer;
@@ -100,7 +108,12 @@ const nextMonth = (picker) => {
         border: 2px solid #2196F3;
     }
 }
-
+:deep(.el-calendar__header ){
+    padding: 16px 0 0 0;
+}
+:deep(.el-calendar__body) {
+    padding: 12px 20px;
+}
 .date-cell {
     position: relative;
     text-align: center;
@@ -124,8 +137,9 @@ const nextMonth = (picker) => {
 }
 
 .calendar-header {
-    display: flex;
+    /* display: flex; */
     justify-content: space-around;
     align-items: center;
+    padding: 0;
 }
 </style>

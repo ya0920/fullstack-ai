@@ -4,7 +4,6 @@
             <img src="@/assets/logo.png" alt="">
             <p>AI助力高效学习</p>
         </div>
-        <!-- 添加用户类型选择 -->
         <div class="type-select">
             <el-radio-group v-model="userType" size="large" round>
                 <el-radio-button label="student">学生</el-radio-button>
@@ -77,7 +76,6 @@ const handleQQLogin = () => {
     max-width: calc(300px + 24px * 2);
     margin: 0 auto;
     padding: 24px;
-    font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 
@@ -107,20 +105,12 @@ const handleQQLogin = () => {
         justify-content: center;
     }
 
-    .el-radio-button__original:checked+.el-radio-button__inner {
-        background-color: #2196F3;
-        border-color: #2196F3;
-    }
-
     :deep(.el-radio-button:first-child .el-radio-button__inner) {
-        border-left: var(--el-border);
-        border-radius: 20px 0 0 20px;
-        box-shadow: none !important;
+        border-radius: 15px 0 0 15px;
     }
 
     :deep(.el-radio-button:last-child .el-radio-button__inner) {
-        border-radius: 0 20px 20px 0;
-        box-shadow: none !important;
+        border-radius: 0 15px 15px 0;
     }
 }
 

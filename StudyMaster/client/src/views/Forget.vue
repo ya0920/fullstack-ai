@@ -5,7 +5,7 @@
             <p>AI助力高效学习</p>
         </div>
         <div class="type-select">
-            <h3>欢迎找回密码</h3>
+            <h3>找回密码</h3>
         </div>
         <div class="input">
             <input type="text" v-model="phone" placeholder="请输入手机号" />
@@ -17,7 +17,6 @@
             <input type="password" v-model="confirmNewPassword" placeholder="请确认新密码" />
         </div>
         <button class="reset-button" @click="handleResetPassword">修改</button>
-        <!-- 返回登录放在修改按钮下面 -->
         <span class="back-to-login" @click="handleBackToLogin">返回登录</span>
         <div class="login-footer">
             <div class="third-party-login">
@@ -88,7 +87,6 @@ const handleBackToLogin = () => {
     max-width: calc(300px + 24px * 2);
     margin: 0 auto;
     padding: 24px;
-    font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
 

@@ -19,12 +19,12 @@
                 <div class="stat-card">
                     <div class="stat-title">复习进度</div>
                     <div class="stat-content">
-                        <span class="main-value">60%</span>
+                        <span class="main-value">{{ reviewProgress }}%</span>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-title">掌握率</div>
-                    <div class="main-value">75%</div>
+                    <div class="main-value">{{ masteryRate }}%</div>
                 </div>
             </section>
 
@@ -69,6 +69,22 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router' // 添加路由
 import TabBar from '@/components/TabBar.vue'
 import VerticalBarChart from '@/components/VerticalBarChart.vue'
+import { useProgressStore } from '@/stores/progress'
+import { computed } from 'vue'
+
+// 修改统计卡片部分
+const progressStore = useProgressStore()
+
+const reviewProgress = computed(() => {
+  const total = progressStore.tasks.length
+  const completed = progressStore.tasks.filter(t => t.completed).length
+  return total === 0 ? 0 : Math.round((completed / total) * 100)
+})
+
+const masteryRate = computed(() => {
+  // 根据实际业务逻辑计算掌握率
+  progressStore.masteryRate
+})
 
 const router = useRouter()
 
