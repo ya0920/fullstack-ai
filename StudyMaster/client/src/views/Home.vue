@@ -104,17 +104,25 @@ const chapterData = ref([
 ])
 
 // 最近错题（实时更新）
-const recentErrors = computed(() => {
-    const allTasks = Object.values(progressStore.dailyTasks).flat()
-    return allTasks
-        .filter(t => !t.completed)
-        .slice(-3)
-        .map(t => ({
-            subject: t.subject,
-            topic: t.knowledgePoint,
-            time: formatTime(t.date)
-        }))
-})
+
+// 最近错题
+const recentErrors = ref([
+    { subject: '数学', topic: '二次函数', time: '3天前' },
+    { subject: '物理', topic: '牛顿定律', time: '2天前' },
+    { subject: '化学', topic: '化学平衡', time: '1天前' }
+])
+
+// const recentErrors = computed(() => {
+//     const allTasks = Object.values(progressStore.dailyTasks).flat()
+//     return allTasks
+//         .filter(t => !t.completed)
+//         .slice(-3)
+//         .map(t => ({
+//             subject: t.subject,
+//             topic: t.knowledgePoint,
+//             time: formatTime(t.date)
+//         }))
+// })
 
 // 辅助方法
 const formatTime = (dateString) => {

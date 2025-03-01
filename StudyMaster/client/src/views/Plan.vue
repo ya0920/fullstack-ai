@@ -84,12 +84,15 @@ const loadYesterdayTasks = (currentDate) => {
 }
 
 // 处理任务勾选
+// 修改任务勾选处理逻辑
 const handleTaskSelect = (selectedIds) => {
   progressStore.dailyTasks[selectedDate.value] =
     progressStore.dailyTasks[selectedDate.value].map(task => ({
       ...task,
       completed: selectedIds.includes(task.id)
     }))
+
+  // ✅ 正确调用持久化方法
   progressStore.persistTasks()
 }
 

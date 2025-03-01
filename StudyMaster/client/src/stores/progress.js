@@ -1,29 +1,65 @@
 // stores/progress.js
 import { defineStore } from 'pinia'
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 
 export const useProgressStore = defineStore('progress', () => {
-  // 从localStorage加载状态
-  const loadState = (key, defaultValue) => {
+  // 数据加载方法（带验证）
+  const loadValidatedTasks = () => {
     try {
-      return JSON.parse(localStorage.getItem(key)) || defaultValue
-    } catch {
-      return defaultValue
+      const saved = JSON.parse(localStorage.getItem('daily_tasks')) || {}
+      return Object.entries(saved).reduce((acc, [date, tasks]) => {
+        acc[date] = Array.isArray(tasks) ? tasks : []
+        return acc
+      }, {})
+    } catch (error) {
+      console.error('数据加载失败，初始化空数据', error)
+      return {}
     }
   }
 
   // 状态定义
-  const dailyTasks = ref(loadState('daily_tasks', {}))
-  const selectedDate = ref(loadState('selected_date', new Date().toISOString().split('T')[0]))
+  const dailyTasks = ref(loadValidatedTasks())
+  const selectedDate = ref(
+    localStorage.getItem('selected_date') || 
+    new Date().toISOString().split('T')[0]
+  )
 
-  // 自动保存
-  watch([dailyTasks, selectedDate], ([tasks, date]) => {
-    localStorage.setItem('daily_tasks', JSON.stringify(tasks))
-    localStorage.setItem('selected_date', JSON.stringify(date))
+  // 强制初始化当前日期数据
+  if (!dailyTasks.value[selectedDate.value]) {
+    dailyTasks.value[selectedDate.value] = []
+  }
+
+  // 数据持久化方法
+  const persistTasks = () => {
+    const validated = Object.entries(dailyTasks.value).reduce((acc, [date, tasks]) => {
+      acc[date] = Array.isArray(tasks) ? tasks : []
+      return acc
+    }, {})
+    localStorage.setItem('daily_tasks', JSON.stringify(validated))
+    localStorage.setItem('selected_date', selectedDate.value)
+  }
+
+  // 自动保存（可选）
+  watch([dailyTasks, selectedDate], () => {
+    persistTasks()
   }, { deep: true })
 
   return {
     dailyTasks,
-    selectedDate
+    selectedDate,
+    persistTasks,
+    
+    // 新增工具方法
+    getTasksByDate: (date) => {
+      return Array.isArray(dailyTasks.value[date]) ? 
+        dailyTasks.value[date] : 
+        []
+    },
+    
+    safeUpdateDate: (date) => {
+      if (!dailyTasks.value[date]) {
+        dailyTasks.value[date] = []
+      }
+    }
   }
 })
