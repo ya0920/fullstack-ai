@@ -1,0 +1,29 @@
+{
+  "name": "learnwebpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "webpack serve --progress --config webpack.config.js",
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-loader": "^7.1.2",
+    "style-loader": "^4.0.0",
+    "vue": "^3.5.13",
+    "vue-loader": "^17.4.2",
+    "webpack": "^5.98.0",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack-cli": "^6.0.1"
+  }
+}
