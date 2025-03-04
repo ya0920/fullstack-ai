@@ -18,7 +18,7 @@
             <span @click="handleForgotPassword">忘记密码？</span>
             <span @click="handleRegister">注册账号</span>
         </div>
-        <button class="login-button" @click="handleLogin">登录</button>
+        <button class="login-button" @click="login">登录</button>
         <div class="login-footer">
             <div class="third-party-login">
                 <span class="iconfont icon-weixin" @click="handleWeChatLogin"></span>
@@ -35,6 +35,9 @@
 <script setup>
 import { ref } from 'vue';
 import router from '@/router';
+import md5 from 'md5';
+import { userLogin } from '@/api/index.js';
+import { ElMessage } from 'element-plus';
 
 // 定义响应式数据，默认用户类型为学生
 const userType = ref('student');
@@ -42,11 +45,31 @@ const phone = ref('');
 const password = ref('');
 
 // 定义方法
-const handleLogin = () => {
-    console.log('用户类型:', userType.value);
-    console.log('手机号:', phone.value);
-    console.log('密码:', password.value);
-};
+const login = async () => {
+    if (!phone.value || !password.value) {
+        ElMessage.error('手机号或密码不能为空');
+        return;
+    }
+    // 调用登录接口
+    const res = await userLogin({ phone_number: phone.value, password: md5(password.value), user_type: userType.value });
+
+    if (res.code === 200) {
+        // 设置 token 及过期时间（7 天）
+        const token = res.token;
+        const expiresAt = new Date().getTime() + 7 * 24 * 60 * 60 * 1000; // 7 天后过期
+        localStorage.setItem('token', token);
+        localStorage.setItem('expiresAt', expiresAt);
+
+        // 存储用户信息
+        localStorage.setItem('userInfo', JSON.stringify(res.data));
+        ElMessage.success('登录成功');
+
+        // 跳转到 Home 页面
+        router.push('/home');
+    } else {
+        ElMessage.error(res.msg || '登录失败');
+    }
+}
 
 const handleForgotPassword = () => {
     console.log('点击了忘记密码');

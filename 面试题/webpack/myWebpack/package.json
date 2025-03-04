@@ -1,0 +1,19 @@
+{
+  "name": "mywebpack",
+  "version": "1.0.0",
+  "description": "- 实现一个打包工具，能读取我们写的高级语法，并生成浏览器能读懂的低版本语法",
+  "main": "bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/parser": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/traverse": "^7.26.9"
+  }
+}

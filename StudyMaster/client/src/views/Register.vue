@@ -38,6 +38,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'; // 引入 useRouter 函数
+import { userRegister } from '@/api/index.js'; // 引入注册 API
+import { ElMessage } from 'element-plus'; // 引入 ElMessage
 
 // 定义响应式数据，默认用户类型为学生
 const userType = ref('student');
@@ -55,18 +57,32 @@ const getVerifyCode = () => {
 };
 
 // 定义注册方法
-const handleRegister = () => {
+const handleRegister = async () => {
     if (password.value !== confirmPassword.value) {
-        console.log('两次输入的密码不一致');
+        ElMessage.error('两次输入的密码不一致');
         return;
     }
-    console.log('注册信息：', {
-        userType: userType.value,
-        phone: phone.value,
+    if (!phone.value || !password.value || !verifyCode.value) {
+        ElMessage.error('手机号、密码或验证码不能为空');
+        return;
+    }
+    const user_id = Date.now().toString(); // 简单生成一个用户ID
+    const res = await userRegister({
+        user_id,
+        username: phone.value, // 使用手机号作为用户名
         password: password.value,
-        verifyCode: verifyCode.value,
+        phone_number: phone.value,
+        user_type: userType.value,
+        created_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
     });
-    // 这里可以添加实际调用注册 API 的逻辑
+
+    if (res.code === 200) {
+        ElMessage.success('注册成功');
+        // 跳转到 Home 页面
+        router.push('/home');
+    } else {
+        ElMessage.error(res.msg || '注册失败');
+    }
 };
 
 // 定义返回登录页的方法
