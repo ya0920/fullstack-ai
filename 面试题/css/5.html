@@ -1,32 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    *{
-      margin: 0;
-      padding: 0;
-    }
-    .parent{
-      width: 100vw;
-      height: 500px;
-      background-color: red;
-      margin-top: 100px;
-      overflow: auto;
-    }
-    .child{
-      width: 100vw;
-      height: 200px;
-      background-color: blue;
-      margin-top: 50px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BFC Margin Isolation Example</title>
+    <style>
+        .bfc-container {
+          /* 触发 BFC */
+            overflow: hidden; 
+            background-color: lightblue;
+        }
+        .bfc-child {
+            margin-top: 50px;
+            background-color: lightcoral;
+            height: 100px;
+        }
+        .outside-element {
+            background-color: lightgreen;
+            height: 100px;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="parent">
-    <div class="child"></div>
-  </div>
+    <div class="bfc-container">
+        <div class="bfc-child"></div>
+    </div>
+    <div class="outside-element"></div>
 </body>
+
 </html>
