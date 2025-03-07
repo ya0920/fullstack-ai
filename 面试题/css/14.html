@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Grid布局示例</title>
+  <style>
+    .grid-container {
+      /* 基础布局 */
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      
+      /* 容器样式 */
+      padding: 20px;
+      min-height: 600px;
+    }
+
+    .grid-item {
+      /* 卡片样式 */
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="grid-container">
+    <div class="grid-item">Item 1</div>
+    <div class="grid-item">Item 2</div>
+    <div class="grid-item">Item 3</div>
+    <div class="grid-item">Item 4</div>
+    <div class="grid-item">Item 5</div>
+    <div class="grid-item">Item 6</div>
+  </div>
+</body>
+</html>

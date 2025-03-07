@@ -17,7 +17,6 @@ function createReactiveObject(target, proxyHandlers, proxyMap) {  // 创建响�
         return exitingProxy
     }
 
-
     const proxy = new Proxy(target, proxyHandlers)
     proxyMap.set(target, proxy) // taget 是 key, proxy 是 value
     return proxy
