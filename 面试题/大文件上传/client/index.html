@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <input type="file" id="input">
+  <button id="btn">上传</button>
+
+  <script>
+    const input = document.getElementById('input');
+    const btn = document.getElementById('btn');
+    const fileObj= {
+      file: null
+    }
+    input.addEventListener('change', function(e) {
+      const [ file ] = e.target.files;
+      if (!file) return;
+      fileObj.file = file;
+    })
+  
+    btn.addEventListener('click', function() {
+      if (!fileObj.file) return;
+      // 先将文件切片
+      const chunkList = createChunk(fileObj.file);
+      // console.log(fileObj.file);
+      // console.log(chunkList);
+      // 处理切片
+      handleChunk(chunkList);
+
+    })
+
+    function createChunk(file, size = 5 * 1024 * 1024) {  // 切片
+      const chunkList = [];
+      let cur = 0;
+      while (cur < file.size) {
+        // slice 方法的参数是 开始位置和结束位置，左闭右开
+        const chunk = file.slice(cur, cur + size);
+        chunkList.push(chunk);
+        cur += size;
+      }
+      return chunkList;
+    }
+  
+    function handleChunk(chunkList) {  // 处理切片
+      const handleChunkList = chunkList.map((chunk, index) => {
+        return {
+          file: chunk,
+          size: chunk.size,
+          chunkName: `${fileObj.file.name}-${index}`,
+          fileName: fileObj.file.name,
+          index
+        }
+      })
+      console.log(handleChunkList);
+      // 发请求
+      uploadChunks(handleChunkList)
+    }
+  
+    function uploadChunks(handleChunkList) { // 上传切片
+      const formDataChunkList =  handleChunkList.map(({ file, chunkName, fileName, index }) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('fileName', fileName);
+        formData.append('chunkName', chunkName);
+        return {formData, index}
+      })
+      // 将formDataChunkList 中的formData 一份一份发送给服务器
+      const requestList = formDataChunkList.map(({ formData, index }) => {
+        return axios.post('http://localhost:3000/upload', formData)
+      })
+
+      // console.log(requestList);
+      Promise.all(requestList).then(res => {
+        axios.post('http://localhost:3000/merge', {
+          size: 5 * 1024 * 1024, 
+          fileName: fileObj.file.name
+        })
+      })
+      
+    }
+  </script>
+</body>
+</html>

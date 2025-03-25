@@ -1,0 +1,37 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4643776 */
+  src: url('/static/iconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bofang:before {
+  content: "\e61c";
+}
+
+.icon-wangyiyunyinyuemusic1193417easyiconnet:before {
+  content: "\e650";
+}
+
+.icon-liaotian:before {
+  content: "\e63c";
+}
+
+.icon-wode:before {
+  content: "\e613";
+}
+
+.icon-shouyinji:before {
+  content: "\e69d";
+}
+
+.icon-faxian:before {
+  content: "\e8af";
+}
+

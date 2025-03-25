@@ -1,0 +1,1 @@
+{"version":3,"file":"user.js","sources":["pages/user/user.vue?type=page"],"sourcesContent":["import MiniProgramPage from '/Users/pengshicong/Documents/爱码班/am_fullstack_ai/uniapp/base/pages/user/user.vue'\nwx.createPage(MiniProgramPage)"],"names":[],"mappings":";;;;;;;;;;;AACA,GAAG,WAAW,eAAe;"}
