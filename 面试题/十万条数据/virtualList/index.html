@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .v-scroll {
+      width: 200px;
+      height: 400px;
+      overflow: auto;
+      border: 1px solid #000;
+      margin: 30px 0 0 30px;
+    }
+    li{
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border-bottom: 1px solid #a5a0a0;
+      box-sizing: border-box;
+    }
+  </style>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <div class="v-scroll" ref="scrollRef" @scroll="doScroll">
+      <ul :style="blankStyle" style="height: 100%;">
+        <li v-for="i in tempData" :key="i">{{i}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // 截流函数
+    function throttle(fn, delay) {
+      let timer = Date.now()
+      return function () {
+        let current = Date.now()
+        if (current - timer > delay) {
+          fn.apply(this, arguments)
+          timer = current
+        }
+      }
+    }
+    
+    const { createApp, ref, onMounted, computed } = Vue
+
+    createApp({
+      setup() {
+        function getAllData() {
+          let data = []
+          for (let i = 1; i <= 10000; i++) {
+            data.push(i)
+          }
+          return data
+        }
+
+        const allData = ref(getAllData())  // 获取到所有的数据
+        const scrollRef = ref(null)  // 可视区域的 ref
+        const boxHeight = ref(0) // 可视区域的高度
+        const itemHeight = ref(40) // 每个 li 的高度
+        const itemNum = ref(0) // 可视区域可以展示的数据量 
+        const startIndex = ref(0) // 开始的索引
+        const endIndex = computed(() => { // 结束的索引
+          let index = startIndex.value + itemNum.value * 2
+          if (!allData.value[index]) {
+            index = allData.value.length - 1
+          }
+          return index
+        }) 
+        // 获取可视区域的高度
+        onMounted(() => {
+          boxHeight.value = scrollRef.value.clientHeight
+          itemNum.value = Math.ceil(boxHeight.value / itemHeight.value) + 2
+        })
+
+        const tempData = computed(() => { // 被展示数据
+          let index = 0
+          if (startIndex.value <= itemNum.value) {
+            index = 0
+          } else {
+            index = startIndex.value - itemNum.value
+          }
+          return allData.value.slice(index, endIndex.value + 1)
+        }) 
+
+        // 监听滚动事件 修改开始索引
+        const doScroll = throttle(() => {
+          console.log(startIndex.value, endIndex.value);
+          
+          const index = ~~(scrollRef.value.scrollTop / itemHeight.value)
+          if (index === startIndex.value) return
+          startIndex.value = index
+        }, 200)
+
+
+        const blankStyle = computed(() => {
+          let index = 0
+          if (startIndex.value <= itemNum.value) {
+            index = 0
+          } else {
+            index = startIndex.value - itemNum.value
+          }
+          return {
+            paddingTop: index * itemHeight.value + 'px',
+            paddingBottom: (allData.value.length - endIndex.value - 1) * itemHeight.value + 'px'
+          }
+        })
+
+
+
+        return {
+          allData,
+          scrollRef,
+          tempData,
+          doScroll,
+          blankStyle
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

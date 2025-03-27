@@ -25,7 +25,7 @@ Object.prototype.toString(x)
   2. 转数字
   3. 转布尔值: if while  !
 
-- {} ==> 数字      ||     {} ==> 字符串    ToString({})
+- {} ==> 数字   ToNumber({})   ||     {} ==> 字符串    ToString({})
   1. ToNumber({})  // ToNumber只能处理原始类型
   2. 当ToNumber遇到引用类型内部执行 ToPrimitive({}， number)  
 
