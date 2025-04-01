@@ -1,65 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        /* 定义 box1 样式，宽度 500px，高度 500px，背景颜色为红色 */
-       .box1{
-            width: 500px;
-            height: 500px;
-            background-color: red;
-        }
-        /* 定义 box2 样式，宽度 300px，高度 300px，背景颜色为绿色 */
-       .box2{
-            width: 300px;
-            height: 300px;
-            background-color: green;
-        }
-        /* 定义 box3 样式，宽度 100px，高度 100px，背景颜色为蓝色 */
-       .box3{
-            width: 100px;
-            height: 100px;
-            background-color: blue;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <body>
-    <!-- 创建一个 div 元素，类名为 box1 -->
-    <div class="box1">
-        <!-- 在 box1 内部创建一个 div 元素，类名为 box2 -->
-        <div class="box2">
-            <!-- 在 box2 内部创建一个 div 元素，类名为 box3 -->
-            <div class="box3"></div>
-        </div>
-    </div>
-    <script>
-        // 获取元素
-        let box1 = document.querySelector('.box1');
-        let box2 = document.querySelector('.box2');
-        let box3 = document.querySelector('.box3');
-        
-        // 给 box1 元素添加点击事件监听器
-        // 第三个参数为 true，表示在事件捕获阶段触发
-        box1.addEventListener('click',function(){
-            // 当 box1 元素在捕获阶段被点击时，打印 box1 red
-            console.log('box1 red');
-        }, true)
-        
-        // 给 box2 元素添加点击事件监听器
-        // 第三个参数为 false，表示在事件冒泡阶段触发
-        box2.addEventListener('click',function(){
-            // 当 box2 元素在冒泡阶段被点击时，打印 box2 green
-            console.log('box2 green');
-        }, false)
-        
-        // 给 box3 元素添加点击事件监听器
-        // 第三个参数为 false，表示在事件冒泡阶段触发
-        box3.addEventListener('click',function(){
-            // 当 box3 元素在冒泡阶段被点击时，打印 box3 blue
-            console.log('box3 blue');
-        }, false)
-    </script>
+  <button id="btn">age++</button>
+
+  <script>
+    let obj = {
+      name: '涛哥',
+      age: 15,
+      like: 'coding'
+    }
+    function viewUpdate() {
+      console.log('视图更新');
+    }
+
+    // 代理机制
+    let proxyObj = new Proxy(obj, {
+        get: function(target, key, receiver) {  // 代理对象被访问时触发
+          // console.log(target, key, receiver);
+          return Reflect.get(target, key, receiver)
+        },
+        set: function(target, key, value, receiver) {  // 代理对象被设置时触发
+          if (value !== target[key]) {
+            // target[key] = value
+            Reflect.set(target, key, value, receiver)
+            viewUpdate()
+          }
+        }
+    })
+
+    document.getElementById('btn').onclick = function() {
+      proxyObj.age++
+      // console.log(proxyObj.age);
+      
+    }
+  </script>
 </body>
 </html>
