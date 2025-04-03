@@ -163,7 +163,7 @@ Object.prototype.toString(x)
    - 宏任务队列：同步代码的第一次执行也叫宏任务
         <script> 、 setTimeout 、 setInterval 、 setImmediate（后面的代码执行完毕在执行） 、 requestAnimationFrame（按照刷新率的计时器）、I/O 、 UI rendering（页面渲染）
    - 微任务队列：
-        promise.then 、 MutationObserver（监听dom结构） 、 node环境独有：process 、 nextTick
+        promise.then 、 MutationObserver（监听dom结构） 、 node环境独有：process.nextTick
 
   - 顺序：同步代码（也叫宏任务） => 微任务队列中的任务 => 有必要的话，执行渲染 => 宏任务
 
