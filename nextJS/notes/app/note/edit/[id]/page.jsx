@@ -1,4 +1,7 @@
-function EditNote({ params }) {
-  return <div>修改笔记</div>;
+export default function EditNote() {
+  return (
+    <div>
+      <h1>Edit note</h1>
+    </div>
+  )
 }
-export default EditNote;

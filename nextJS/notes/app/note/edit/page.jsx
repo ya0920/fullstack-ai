@@ -1,4 +1,7 @@
-function EditNote() {
-  return <div>新增笔记</div>;
+export default function AddNote() {
+  return (
+    <div>
+      <h1>add note</h1>
+    </div>
+  )
 }
-export default EditNote;
