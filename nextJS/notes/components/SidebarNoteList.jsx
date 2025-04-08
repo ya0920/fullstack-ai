@@ -5,7 +5,7 @@ export default async function SidebarNoteList() {
   const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  await sleep(5000)
+  await sleep(1000)
   
   const notes = await getAllNotes()
   const arr = Object.entries(notes)
