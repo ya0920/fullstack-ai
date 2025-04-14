@@ -42,4 +42,9 @@ export async function delNote(uuid) {
   return data
 }
 
+// // 保存笔记
+// export async function saveNotes({noteId, title, body}) {
+//   await redis.hset("notes", {noteId, title, body});
+// }
+
 export default redis;
