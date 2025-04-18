@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body{
+      height: 300vh;
+    }
+    .box {
+      width: 200px;
+      height: 200px;
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div style="height: 1000px;"></div>
+  <div class="box"></div>
+
+  <script>
+    let box = document.querySelector(".box");
+    // box 是否在可视区域内
+    // let rect = box.getBoundingClientRect();
+
+    // window.addEventListener("scroll", function () {
+    //   let rect = box.getBoundingClientRect();
+    //   if (rect.top < window.innerHeight && rect.bottom > 0) {
+    //     // 在可视区域内
+    //     console.log("在可视区域内");
+    //   }
+    // })
+    
+    let io = new IntersectionObserver((entries) => {
+      console.log(entries[0].intersectionRatio);
+      if (entries[0].intersectionRatio > 0) {
+        // 在可视区域内
+        console.log("在可视区域内");
+      }
+    }, {
+      threshold: 0
+    })
+
+    window.addEventListener("scroll", function () {
+      io.observe(box);
+    })
+
+  </script>
+</body>
+</html>

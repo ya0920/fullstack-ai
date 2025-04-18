@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <img src="https://xxxxx.png" alt="">
+  <script src="https://xxxxxx.js"></script>
+
+  <script>
+    // fetch('http://localhost:3000/home').then(res => {
+    //   return res.json()
+    // }).then(res => {
+    //   console.log(res)
+    // })
+
+    window.callback = function (res) {
+      console.log(res)  // {age: 18, name: "zs"}
+    }
+
+
+    const script = document.createElement('script')
+    script.src = "http://localhost:3000/home?cb='callback'"   // callback(   {age: 18, name: "zs"}   )
+    document.body.appendChild(script)
+  </script>
+</body>
+</html>

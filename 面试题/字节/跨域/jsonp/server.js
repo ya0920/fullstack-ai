@@ -1,15 +1,16 @@
 const http = require('http');
 
 http.createServer((req, res) => {
-    const query = new URL(req.url, `http://${req.headers.host}`).searchParams;
-    // console.log(query.get('callback'));
+  const query = new URL(req.url, `http://${req.headers.host}`).searchParams
+  // console.log(query.get('cb'));
+  
+  if (query.get('cb')) {
+    const cb = query.get('cb')  // 'callback'
+    const data = 'hello world'
+    const result = `${cb}("${data}")`   // "callback('hello world')"
+    res.end(result)
+  }
 
-    if (query.get('callback')) {
-        const cb = query.get('callback');
-        const data = 'hello jsonp';
-        const result = `${cb}('${data}')`; // callback('hello jsonp')
-        res.end(result);
-    }
-    
-    // res.end('hello jsonp');
-}).listen(3000)
+  // res.end('hello world')
+
+}).listen(3000);

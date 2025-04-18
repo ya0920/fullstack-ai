@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
-
 <body>
-    <h2>首页</h2>
-    <iframe id="frame" src="http://127.0.0.1:5500/%E8%B7%A8%E5%9F%9F/postMessage/detail.html" frameborder="0"
-        width="800" height="500"></iframe>
+  <h2>首页</h2>
+  <!-- <iframe id="frame" src="http://127.0.0.1:5500/%E8%B7%A8%E5%9F%9F/postMessage/detail.html" frameborder="0" width="800" height="500"></iframe> -->
 
-    <script>
-        let obj = { name: '阿杰', age: 18 }
+  <!-- 
+  <script>
+    let obj = {name: '阿杰', age: 18}
 
-        document.getElementById('frame').onload = function () {
-            this.contentWindow.postMessage(obj, 'http://127.0.0.1:5500') // 向iframe发送消息
+    document.getElementById('frame').onload = function () {
+      this.contentWindow.postMessage(obj, 'http://127.0.0.1:5500') // 向iframe发送消息
 
-            window.onmessage = function (e) { // 接收iframe发送的消息
-                console.log(e.data);
-            }
+      window.onmessage = function (e) { // 接收iframe发送的消息
+        console.log(e.data);
+      }
 
-        }
-    </script>
+    }
+  </script> -->
 </body>
-
 </html>

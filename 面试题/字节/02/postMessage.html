@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>页面 111</h1>
+  <iframe id="ifr" src="http://127.0.0.1:5500/postMessage2.html" width="500" height="500" frameborder="0"></iframe>
+
+  <script>
+    // postMessage 方法用于向其他窗口发送消息
+
+    // 发送消息
+    let ifr = document.getElementById('ifr')
+    ifr.onload = function () {
+      // 发送消息
+      ifr.contentWindow.postMessage({age: 19}, 'http://127.0.0.1:5500/')
+    }
+  </script>
+</body>
+</html>

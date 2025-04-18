@@ -42,7 +42,7 @@ function mergeArr(arr1, arr2) {
   }
 
   if (i < len1) {
-    res = res.concat(arr1.slice(i)) // 将剩余的部分连接到res后面
+    res = res.concat(arr1.slice(i))
   } else {
     res = res.concat(arr2.slice(j))
   }
