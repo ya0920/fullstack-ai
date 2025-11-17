@@ -42,9 +42,9 @@
       <div class="task-header">
         <h2 class="task-title">任务列表 ({{ filteredTasks.length }}个任务)</h2>
         <!-- 时间排序 -->
-        <button class="sort-btn">
-          <img src="@/assets/time.svg" alt="时间图标" class="sort-icon" />
-          <span>时间排序</span>
+        <button class="sort-btn" @click="toggleTimeSort">
+          <img :src="sortIcon" alt="时间图标" class="sort-icon" />
+          <span>{{ sortButtonText }}</span>
         </button>
       </div>
 
@@ -102,16 +102,31 @@ import { notification } from '@/utils/notification';
 import { taskUtils } from '@/utils/task';
 import { selectionUtils } from '@/utils/selection';
 
+// 引入 SVG 图标
+import timeIconUp from '@/assets/time_up.svg';
+import timeIconDown from '@/assets/time_down.svg';
+
 // --- 响应式状态定义 ---
 const showModal = ref(false);
 const isEditing = ref(false);
 const selectedCategory = ref('all');
 const selectAll = ref(false);
 const tasks = ref(taskUtils.initTasks());
+const sortOrder = ref('desc'); // 'desc' 或 'asc'，默认为降序
 
-// --- 计算属性优化 ---
+// --- 计算属性 ---
 const filteredTasks = computed(() => {
-  return taskUtils.filterAndSortTasks(tasks.value, selectedCategory.value);
+  return taskUtils.filterAndSortTasks(tasks.value, selectedCategory.value, sortOrder.value);
+});
+
+// 排序按钮的显示文本
+const sortButtonText = computed(() => {
+  return sortOrder.value === 'desc' ? '时间降序' : '时间升序';
+});
+
+// 动态排序图标
+const sortIcon = computed(() => {
+  return sortOrder.value === 'desc' ? timeIconDown : timeIconUp;
 });
 
 // 当前分类选中数（编辑模式）/ 当前分类已完成数（普通模式）
@@ -137,7 +152,7 @@ watch(
   { deep: true }
 );
 
-// --- 侦听器：同步全选框状态 ---
+// --- 监听：同步全选框状态 ---
 watch(
   [() => filteredTasks.value, isEditing],
   ([currentFilteredTasks, editing]) => {
@@ -244,6 +259,12 @@ const batchDelete = () => {
 // --- 辅助方法 ---
 const toggleModal = () => {
   showModal.value = !showModal.value;
+};
+
+// 新增：切换时间排序状态
+const toggleTimeSort = () => {
+  // 直接在 'desc' 和 'asc' 之间切换
+  sortOrder.value = sortOrder.value === 'desc' ? 'asc' : 'desc';
 };
 
 const getCategoryColor = (category) => {
