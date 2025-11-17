@@ -73,6 +73,9 @@
               <span class="task-time">{{ task.time }}</span>
             </div>
           </div>
+          <button class="edit-btn" @click="openEditModal(task)">
+            <img src="@/assets/edit.svg" alt="编辑" class="edit-icon" />
+          </button>
           <button class="delete-btn" @click="deleteTask(task.id)">
             <img src="@/assets/delete.svg" alt="删除" class="delete-icon" />
           </button>
@@ -81,17 +84,23 @@
     </div>
 
     <!-- 悬浮添加按钮 -->
-    <button class="add-btn" @click="toggleModal">+</button>
+    <button class="add-btn" @click="openAddModal">+</button>
 
     <!-- 弹窗组件 -->
-    <AddTodoModal v-if="showModal" @close="toggleModal" @add-task="addTask" />
+    <AddTodoModal 
+      v-if="showModal" 
+      :task-to-edit="editingTask"
+      @close="closeModal" 
+      @add-task="addTask"
+      @edit-task="editTask"
+    />
     <TopNotification :notices="notification.notices.value" @remove="notification.remove" />
   </div>
 </template>
 
 <script setup>
 // 组件引入
-import AddTodoModal from './components/AddTodoModal.vue';
+import AddTodoModal from './components/TodoModal.vue';
 import TopNotification from './components/TopNotification.vue';
 
 // 依赖引入
@@ -113,6 +122,7 @@ const selectedCategory = ref('all');
 const selectAll = ref(false);
 const tasks = ref(taskUtils.initTasks());
 const sortOrder = ref('desc'); // 'desc' 或 'asc'，默认为降序
+const editingTask = ref(null); // 存储正在编辑的任务
 
 // --- 计算属性 ---
 const filteredTasks = computed(() => {
@@ -191,7 +201,14 @@ const addTask = (newTask) => {
     selected: false
   });
   notification.success('任务添加成功');
-  toggleModal();
+};
+
+const editTask = (updatedTask) => {
+  const index = tasks.value.findIndex(t => t.id === updatedTask.id);
+  if (index !== -1) {
+    tasks.value[index] = { ...tasks.value[index], ...updatedTask };
+  }
+  notification.success('任务更新成功');
 };
 
 const deleteTask = (taskId) => {
@@ -257,13 +274,22 @@ const batchDelete = () => {
 };
 
 // --- 辅助方法 ---
-const toggleModal = () => {
-  showModal.value = !showModal.value;
+const openAddModal = () => {
+  editingTask.value = null;
+  showModal.value = true;
 };
 
-// 新增：切换时间排序状态
+const openEditModal = (task) => {
+  editingTask.value = task;
+  showModal.value = true;
+};
+
+const closeModal = () => {
+  showModal.value = false;
+  editingTask.value = null;
+};
+
 const toggleTimeSort = () => {
-  // 直接在 'desc' 和 'asc' 之间切换
   sortOrder.value = sortOrder.value === 'desc' ? 'asc' : 'desc';
 };
 
@@ -444,6 +470,7 @@ const getCategoryColor = (category) => {
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  position: relative; /* 为按钮定位提供基准 */
 }
 
 .task-item:last-child {
@@ -496,14 +523,22 @@ const getCategoryColor = (category) => {
   color: #6b7280;
 }
 
-.delete-btn {
+.edit-btn, .delete-btn {
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+}
+
+.edit-btn {
   margin-top: 4px;
 }
 
-.delete-icon {
+.delete-btn {
+  margin-top: 4px;
+}
+
+.edit-icon, .delete-icon {
   width: 16px;
   height: 16px;
 }
