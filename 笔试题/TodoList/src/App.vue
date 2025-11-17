@@ -59,7 +59,7 @@
       </div>
 
       <!-- 任务列表 -->
-      <ul class="task-list">
+      <ul v-if="filteredTasks.length > 0" class="task-list">
         <li v-for="task in filteredTasks" :key="task.id" class="task-item" :class="{ completed: task.completed }">
           <input type="checkbox" class="task-checkbox" :checked="isEditing ? task.selected : task.completed"
             @change="toggleTaskSelection(task)" />
@@ -81,6 +81,7 @@
           </button>
         </li>
       </ul>
+      <EmptyState v-else />
     </div>
 
     <!-- 悬浮添加按钮 -->
@@ -102,6 +103,7 @@
 // 组件引入
 import AddTodoModal from './components/TodoModal.vue';
 import TopNotification from './components/TopNotification.vue';
+import EmptyState from './components/EmptyState.vue';
 
 // 依赖引入
 import { ref, computed, watch } from 'vue';
@@ -301,7 +303,7 @@ const getCategoryColor = (category) => {
 <style scoped>
 .container {
   margin: 0 auto;
-  padding: 50px 100px;
+  padding: 30px 100px;
   min-height: 100vh;
   background-color: #f3f4f6;
 }
